@@ -105,37 +105,37 @@ export const WhatsAppSimulator: React.FC = () => {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto rounded-3xl overflow-hidden border border-[#6272a4]/40 bg-[#1e1f29] shadow-2xl flex flex-col h-[580px]">
+    <div className="w-full max-w-md mx-auto rounded-3xl overflow-hidden border border-[var(--border-subtle)] bg-[var(--bg-app)] shadow-2xl flex flex-col h-[580px]">
       {/* Header WhatsApp Mockup */}
-      <div className="bg-[#282a36] px-4 py-3 border-b border-[#44475a] flex items-center justify-between">
+      <div className="bg-[var(--bg-elevated)] px-4 py-3 border-b border-[var(--border-subtle)] flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="relative">
             <div className="w-10 h-10 rounded-full bg-[#bd93f9]/20 border border-[#bd93f9]/50 flex items-center justify-center text-[#bd93f9]">
               <Scale className="w-5 h-5" />
             </div>
-            <span className="absolute bottom-0 right-0 w-3 h-3 bg-[#50fa7b] rounded-full border-2 border-[#282a36]" />
+            <span className="absolute bottom-0 right-0 w-3 h-3 bg-[#50fa7b] rounded-full border-2 border-[var(--bg-elevated)]" />
           </div>
           <div>
-            <h4 className="text-sm font-bold text-[#f8f8f2] flex items-center gap-1.5">
+            <h4 className="text-sm font-bold text-[var(--text-main)] flex items-center gap-1.5">
               Atendente Jurídica IA
               <ShieldCheck className="w-4 h-4 text-[#50fa7b]" />
             </h4>
             <span className="text-[11px] text-[#50fa7b] font-mono">Online 24/7 • Ética OAB</span>
           </div>
         </div>
-        <div className="text-[10px] font-mono bg-[#44475a]/60 text-[#8be9fd] px-2 py-1 rounded-md border border-[#8be9fd]/30">
+        <div className="text-[10px] font-mono bg-[var(--bg-surface)] text-[var(--accent-purple)] px-2 py-1 rounded-md border border-[var(--border-subtle)]">
           Simulador Vivo
         </div>
       </div>
 
       {/* Scenarios Preset Bar */}
-      <div className="bg-[#282a36]/80 px-3 py-2 border-b border-[#44475a]/40 flex gap-2 overflow-x-auto no-scrollbar">
+      <div className="bg-[var(--bg-surface)] px-3 py-2 border-b border-[var(--border-subtle)] flex gap-2 overflow-x-auto no-scrollbar">
         {PRESET_SCENARIOS.map((sc, idx) => (
           <button
             key={idx}
             type="button"
             onClick={() => simulateScenario(sc)}
-            className="text-[11px] font-medium whitespace-nowrap px-2.5 py-1 rounded-lg bg-[#44475a]/70 hover:bg-[#bd93f9]/30 text-[#f8f8f2] hover:text-[#bd93f9] border border-[#6272a4]/30 transition-colors"
+            className="text-[11px] font-medium whitespace-nowrap px-2.5 py-1 rounded-lg bg-[var(--bg-elevated)] hover:bg-[#bd93f9]/20 text-[var(--text-main)] hover:text-[#bd93f9] border border-[var(--border-subtle)] transition-colors"
           >
             {sc.label}
           </button>
@@ -143,7 +143,7 @@ export const WhatsAppSimulator: React.FC = () => {
       </div>
 
       {/* Messages Feed */}
-      <div className="flex-1 p-4 overflow-y-auto space-y-3 bg-[#1e1f29]">
+      <div className="flex-1 p-4 overflow-y-auto space-y-3 bg-[var(--bg-app)]">
         <AnimatePresence initial={false}>
           {messages.map((msg) => (
             <motion.div
@@ -156,18 +156,18 @@ export const WhatsAppSimulator: React.FC = () => {
               <div
                 className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 text-xs sm:text-sm leading-relaxed shadow-md ${
                   msg.sender === 'user'
-                    ? 'bg-[#50fa7b] text-[#282a36] rounded-br-none font-medium'
-                    : 'bg-[#44475a] text-[#f8f8f2] rounded-bl-none border border-[#6272a4]/40'
+                    ? 'bg-[#50fa7b] text-slate-950 rounded-br-none font-medium'
+                    : 'bg-[var(--bg-surface)] text-[var(--text-main)] rounded-bl-none border border-[var(--border-subtle)]'
                 }`}
               >
                 <p>{msg.text}</p>
                 <div
                   className={`flex items-center justify-end gap-1 text-[10px] mt-1 ${
-                    msg.sender === 'user' ? 'text-[#282a36]/70' : 'text-[#6272a4]'
+                    msg.sender === 'user' ? 'text-slate-800' : 'text-[var(--text-muted)]'
                   }`}
                 >
                   <span>{msg.time}</span>
-                  {msg.sender === 'user' && <CheckCheck className="w-3.5 h-3.5 text-[#282a36]" />}
+                  {msg.sender === 'user' && <CheckCheck className="w-3.5 h-3.5 text-slate-900" />}
                 </div>
               </div>
             </motion.div>
@@ -178,7 +178,7 @@ export const WhatsAppSimulator: React.FC = () => {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="flex items-center gap-1.5 text-xs text-[#8be9fd] bg-[#44475a]/40 px-3 py-1.5 rounded-full w-fit border border-[#6272a4]/30 font-mono"
+            className="flex items-center gap-1.5 text-xs text-[var(--accent-cyan)] bg-[var(--bg-surface)] px-3 py-1.5 rounded-full w-fit border border-[var(--border-subtle)] font-mono"
           >
             <Sparkles className="w-3.5 h-3.5 animate-spin" />
             <span>IA Jurídica analisando termos...</span>
@@ -187,17 +187,17 @@ export const WhatsAppSimulator: React.FC = () => {
       </div>
 
       {/* Input Field */}
-      <form onSubmit={handleSendCustom} className="p-3 bg-[#282a36] border-t border-[#44475a] flex gap-2">
+      <form onSubmit={handleSendCustom} className="p-3 bg-[var(--bg-elevated)] border-t border-[var(--border-subtle)] flex gap-2">
         <input
           type="text"
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
           placeholder="Digite sua dúvida jurídica de teste..."
-          className="flex-1 bg-[#1e1f29] border border-[#6272a4]/40 rounded-xl px-3.5 py-2 text-xs text-[#f8f8f2] focus:outline-none focus:border-[#bd93f9] transition-colors"
+          className="flex-1 bg-[var(--bg-surface)] border border-[var(--border-subtle)] rounded-xl px-3.5 py-2 text-xs text-[var(--text-main)] focus:outline-none focus:border-[#bd93f9] transition-colors"
         />
         <button
           type="submit"
-          className="p-2.5 rounded-xl bg-gradient-to-r from-[#bd93f9] to-[#8be9fd] text-[#282a36] hover:opacity-90 active:scale-95 transition-all"
+          className="p-2.5 rounded-xl bg-gradient-to-r from-[#bd93f9] to-[#8be9fd] text-slate-950 font-bold hover:opacity-90 active:scale-95 transition-all"
           aria-label="Enviar mensagem"
         >
           <Send className="w-4 h-4" />
@@ -205,8 +205,8 @@ export const WhatsAppSimulator: React.FC = () => {
       </form>
 
       {/* Live WhatsApp CTA Bar */}
-      <div className="p-3 bg-[#1e1f29] border-t border-[#44475a]/70 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs">
-        <span className="text-[#f8f8f2]/70 font-mono text-[11px]">
+      <div className="p-3 bg-[var(--bg-surface)] border-t border-[var(--border-subtle)] flex flex-col sm:flex-row items-center justify-between gap-2 text-xs">
+        <span className="text-[var(--text-muted)] font-mono text-[11px]">
           Simulação interativa. Quer conversar com a IA real?
         </span>
         <a
