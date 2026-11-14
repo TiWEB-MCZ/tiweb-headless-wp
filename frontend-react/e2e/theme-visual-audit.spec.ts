@@ -97,5 +97,9 @@ test.describe('Varredura Visual e Auditoria de Tema (Dark vs Light Mode)', () =>
     console.log(`Total de elementos inspecionados: ${auditReport.totalElementsScanned}`);
     console.log(`Elementos com fundo escuro hardcoded (#282a36, #1e1f29, #44475a): ${auditReport.offendingDarkBgsCount}`);
     console.log(`Elementos com texto claro hardcoded (#f8f8f2): ${auditReport.offendingLightTextsCount}`);
+
+    // 6. Assegura que resíduos escuros e textos ilegíveis foram eliminados no Light Mode
+    expect(auditReport.offendingDarkBgsCount).toBe(0);
+    expect(auditReport.offendingLightTextsCount).toBe(0);
   });
 });
