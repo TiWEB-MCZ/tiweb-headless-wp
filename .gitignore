@@ -35,6 +35,10 @@ frontend-react/dist/
 frontend-react/node_modules/
 frontend-smartlegal/dist/
 frontend-smartlegal/node_modules/
+playwright-report/
+test-results/
+**/playwright-report/
+**/test-results/
 *:Zone.Identifier
 npm-debug.log
 yarn-error.log
