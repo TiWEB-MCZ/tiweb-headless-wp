@@ -34,6 +34,13 @@ describe('App Component', () => {
     expect(screen.getByText('Calculadora de Retorno (ROI Reverso)')).toBeInTheDocument();
   });
 
+  it('renders gamified sitemap constellation section and explorer hud', () => {
+    render(<App />);
+    expect(screen.getByText(/Constelação Tecnológica & Mapa do Site/i)).toBeInTheDocument();
+    expect(screen.getByTestId('sitemap-node-core-hub')).toBeInTheDocument();
+    expect(screen.getByTestId('explorer-hud')).toBeInTheDocument();
+  });
+
   it('renders footer with copyright', () => {
     render(<App />);
     expect(screen.getByText(/TIWEB Soluções Tecnológicas/i)).toBeInTheDocument();
