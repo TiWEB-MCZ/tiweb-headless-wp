@@ -1,4 +1,5 @@
 import React from 'react';
+import { ThemeProvider } from './context/ThemeContext';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { BentoGrid } from './components/BentoGrid';
@@ -9,9 +10,9 @@ import { RoiCalculator } from './components/RoiCalculator';
 import { EngineeringTrust } from './components/EngineeringTrust';
 import { Footer } from './components/Footer';
 
-export const App: React.FC = () => {
+export const AppContent: React.FC = () => {
   return (
-    <div className="min-h-screen bg-[#282a36] text-[#f8f8f2] flex flex-col font-sans">
+    <div className="min-h-screen bg-[var(--bg-app)] text-[var(--text-main)] flex flex-col font-sans transition-colors duration-200">
       <Navbar />
       <main className="flex-grow">
         <Hero />
@@ -24,6 +25,14 @@ export const App: React.FC = () => {
       </main>
       <Footer />
     </div>
+  );
+};
+
+export const App: React.FC = () => {
+  return (
+    <ThemeProvider>
+      <AppContent />
+    </ThemeProvider>
   );
 };
 
