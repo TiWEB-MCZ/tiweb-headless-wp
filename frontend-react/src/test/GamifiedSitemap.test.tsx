@@ -4,12 +4,15 @@ import React from 'react';
 import { GamifiedSitemap } from '../components/sitemap/GamifiedSitemap';
 import { SITEMAP_NODES } from '../data/sitemapNodes';
 import { ThemeProvider } from '../context/ThemeContext';
+import { ExplorationGameProvider } from '../context/ExplorationGameContext';
 
 describe('GamifiedSitemap Component', () => {
   const renderComponent = (props = {}) => {
     return render(
       <ThemeProvider>
-        <GamifiedSitemap {...props} />
+        <ExplorationGameProvider>
+          <GamifiedSitemap {...props} />
+        </ExplorationGameProvider>
       </ThemeProvider>
     );
   };
