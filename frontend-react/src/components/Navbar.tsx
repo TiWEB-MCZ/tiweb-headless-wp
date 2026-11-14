@@ -28,7 +28,7 @@ export const Navbar: React.FC = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-7 text-sm font-medium">
-            <a href="#produtos" className="text-[var(--text-main)]/80 hover:text-[#8be9fd] transition-colors">
+            <a href="#produtos" className="text-[var(--text-secondary)] hover:text-[#8be9fd] transition-colors">
               Ecossistema
             </a>
             <a
@@ -38,13 +38,13 @@ export const Navbar: React.FC = () => {
               <Scale className="w-3.5 h-3.5" />
               Vertical Advocacia
             </a>
-            <a href="#cases" className="text-[var(--text-main)]/80 hover:text-[#50fa7b] transition-colors">
+            <a href="#cases" className="text-[var(--text-secondary)] hover:text-[#50fa7b] transition-colors">
               Cases Reais
             </a>
-            <a href="#roi" className="text-[var(--text-main)]/80 hover:text-[#8be9fd] transition-colors">
+            <a href="#roi" className="text-[var(--text-secondary)] hover:text-[#8be9fd] transition-colors">
               Simulador ROI
             </a>
-            <a href="#engenharia" className="text-[var(--text-main)]/80 hover:text-[var(--text-main)] transition-colors">
+            <a href="#engenharia" className="text-[var(--text-secondary)] hover:text-[var(--text-main)] transition-colors">
               Engenharia
             </a>
             <a
@@ -65,9 +65,9 @@ export const Navbar: React.FC = () => {
               href={getLisaWhatsAppUrl('Olá Lisa! Vim pelo portal da TIWEB e gostaria de falar com você.')}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-4 py-2 rounded-lg text-sm font-semibold text-[#282a36] bg-gradient-to-r from-[#bd93f9] to-[#8be9fd] hover:shadow-[0_0_20px_rgba(139,233,253,0.4)] transition-all duration-300 flex items-center gap-2"
+              className="px-4 py-2 rounded-lg text-sm font-semibold text-slate-950 bg-gradient-to-r from-[#bd93f9] to-[#8be9fd] hover:shadow-[0_0_20px_rgba(139,233,253,0.4)] transition-all duration-300 flex items-center gap-2"
             >
-              <Sparkles className="w-4 h-4 text-[#282a36]" />
+              <Sparkles className="w-4 h-4 text-slate-950" />
               Fale com a Lisa
             </a>
           </div>
