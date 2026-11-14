@@ -1,6 +1,77 @@
 @import "tailwindcss";
 
+:root {
+  --bg-app: #282a36;
+  --bg-surface: #1e1f29;
+  --bg-card: #282a36;
+  --bg-elevated: #44475a;
+
+  --text-main: #f8f8f2;
+  --text-muted: #6272a4;
+  --text-secondary: rgba(248, 248, 242, 0.75);
+
+  --border-subtle: rgba(68, 71, 90, 0.6);
+  --border-strong: #44475a;
+
+  --accent-purple: #bd93f9;
+  --accent-cyan: #8be9fd;
+  --accent-green: #50fa7b;
+  --accent-orange: #ffb86c;
+  --accent-pink: #ff79c6;
+  --accent-yellow: #f1fa8c;
+
+  --scrollbar-track: #282a36;
+  --scrollbar-thumb: #44475a;
+  --scrollbar-thumb-hover: #6272a4;
+}
+
+html.light,
+.light {
+  --bg-app: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-card: #ffffff;
+  --bg-elevated: #f1f5f9;
+
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --text-secondary: #334155;
+
+  --border-subtle: #e2e8f0;
+  --border-strong: #cbd5e1;
+
+  --accent-purple: #7c3aed;
+  --accent-cyan: #0284c7;
+  --accent-green: #16a34a;
+  --accent-orange: #ea580c;
+  --accent-pink: #db2777;
+  --accent-yellow: #ca8a04;
+
+  --scrollbar-track: #f1f5f9;
+  --scrollbar-thumb: #cbd5e1;
+  --scrollbar-thumb-hover: #94a3b8;
+}
+
 @theme {
+  --color-bg-app: var(--bg-app);
+  --color-bg-surface: var(--bg-surface);
+  --color-bg-card: var(--bg-card);
+  --color-bg-elevated: var(--bg-elevated);
+
+  --color-text-main: var(--text-main);
+  --color-text-muted: var(--text-muted);
+  --color-text-secondary: var(--text-secondary);
+
+  --color-border-subtle: var(--border-subtle);
+  --color-border-strong: var(--border-strong);
+
+  --color-accent-purple: var(--accent-purple);
+  --color-accent-cyan: var(--accent-cyan);
+  --color-accent-green: var(--accent-green);
+  --color-accent-orange: var(--accent-orange);
+  --color-accent-pink: var(--accent-pink);
+  --color-accent-yellow: var(--accent-yellow);
+
+  /* Primitivas Dracula para compatibilidade */
   --color-dracula-bg: #282a36;
   --color-dracula-current: #44475a;
   --color-dracula-fg: #f8f8f2;
@@ -16,27 +87,28 @@
 }
 
 body {
-  background-color: var(--color-dracula-bg);
-  color: var(--color-dracula-fg);
+  background-color: var(--bg-app);
+  color: var(--text-main);
   font-family: var(--font-sans);
   margin: 0;
   padding: 0;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
-/* Scrollbar fluida Dracula */
+/* Scrollbar fluida adaptativa */
 ::-webkit-scrollbar {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #282a36;
+  background: var(--scrollbar-track);
 }
 ::-webkit-scrollbar-thumb {
-  background: #44475a;
+  background: var(--scrollbar-thumb);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #6272a4;
+  background: var(--scrollbar-thumb-hover);
 }
