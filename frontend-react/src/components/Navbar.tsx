@@ -1,25 +1,26 @@
 import React, { useState } from 'react';
 import { Menu, X, Sparkles, Terminal, ChevronRight, Scale } from 'lucide-react';
 import { getLisaWhatsAppUrl } from '../data/contact';
+import { ThemeToggle } from './ThemeToggle';
 
 export const Navbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 bg-[#282a36]/90 backdrop-blur-md border-b border-[#44475a]/70">
+    <header className="sticky top-0 z-50 bg-[var(--bg-app)]/90 backdrop-blur-md border-b border-[var(--border-strong)] transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20">
           {/* Brand Logo */}
           <a href="#" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-xl bg-[#44475a] border border-[#bd93f9]/50 flex items-center justify-center shadow-[0_0_15px_rgba(189,147,249,0.3)] group-hover:border-[#bd93f9] transition-all duration-300">
+            <div className="w-10 h-10 rounded-xl bg-[var(--bg-elevated)] border border-[#bd93f9]/50 flex items-center justify-center shadow-[0_0_15px_rgba(189,147,249,0.3)] group-hover:border-[#bd93f9] transition-all duration-300">
               <Terminal className="w-5 h-5 text-[#8be9fd] group-hover:text-[#50fa7b] transition-colors" />
             </div>
             <div>
-              <span className="text-xl font-bold tracking-tight text-[#f8f8f2] flex items-center gap-1.5">
+              <span className="text-xl font-bold tracking-tight text-[var(--text-main)] flex items-center gap-1.5">
                 TIWEB
                 <span className="inline-block w-2 h-2 rounded-full bg-[#50fa7b] animate-pulse"></span>
               </span>
-              <span className="text-[10px] uppercase font-mono tracking-widest text-[#6272a4] block -mt-1">
+              <span className="text-[10px] uppercase font-mono tracking-widest text-[var(--text-muted)] block -mt-1">
                 Enterprise & IA
               </span>
             </div>
@@ -27,23 +28,23 @@ export const Navbar: React.FC = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-7 text-sm font-medium">
-            <a href="#produtos" className="text-[#f8f8f2]/80 hover:text-[#8be9fd] transition-colors">
+            <a href="#produtos" className="text-[var(--text-main)]/80 hover:text-[#8be9fd] transition-colors">
               Ecossistema
             </a>
             <a
               href="#advocacia"
-              className="text-[#bd93f9] hover:text-[#f8f8f2] flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#bd93f9]/10 border border-[#bd93f9]/30 transition-all"
+              className="text-[#bd93f9] hover:text-[var(--text-main)] flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#bd93f9]/10 border border-[#bd93f9]/30 transition-all"
             >
               <Scale className="w-3.5 h-3.5" />
               Vertical Advocacia
             </a>
-            <a href="#cases" className="text-[#f8f8f2]/80 hover:text-[#50fa7b] transition-colors">
+            <a href="#cases" className="text-[var(--text-main)]/80 hover:text-[#50fa7b] transition-colors">
               Cases Reais
             </a>
-            <a href="#roi" className="text-[#f8f8f2]/80 hover:text-[#8be9fd] transition-colors">
+            <a href="#roi" className="text-[var(--text-main)]/80 hover:text-[#8be9fd] transition-colors">
               Simulador ROI
             </a>
-            <a href="#engenharia" className="text-[#f8f8f2]/80 hover:text-[#f8f8f2] transition-colors">
+            <a href="#engenharia" className="text-[var(--text-main)]/80 hover:text-[var(--text-main)] transition-colors">
               Engenharia
             </a>
             <a
@@ -57,8 +58,9 @@ export const Navbar: React.FC = () => {
             </a>
           </nav>
 
-          {/* CTA Desktop */}
-          <div className="hidden lg:flex items-center gap-4">
+          {/* CTA Desktop & Theme Toggle */}
+          <div className="hidden lg:flex items-center gap-3">
+            <ThemeToggle />
             <a
               href={getLisaWhatsAppUrl('Olá Lisa! Vim pelo portal da TIWEB e gostaria de falar com você.')}
               target="_blank"
@@ -70,12 +72,13 @@ export const Navbar: React.FC = () => {
             </a>
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="flex lg:hidden">
+          {/* Mobile Actions: Theme Toggle + Menu Button */}
+          <div className="flex lg:hidden items-center gap-2">
+            <ThemeToggle />
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-lg text-[#f8f8f2] hover:bg-[#44475a] focus:outline-none transition-colors"
+              className="p-2 rounded-lg text-[var(--text-main)] hover:bg-[var(--bg-elevated)] focus:outline-none transition-colors"
               aria-label="Abrir menu"
             >
               {mobileMenuOpen ? <X className="w-6 h-6 text-[#ff5555]" /> : <Menu className="w-6 h-6" />}
@@ -86,7 +89,7 @@ export const Navbar: React.FC = () => {
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-[#282a36] border-b border-[#44475a] px-4 pt-3 pb-6 space-y-3 animate-in fade-in slide-in-from-top-4 duration-200">
+        <div className="lg:hidden bg-[var(--bg-app)] border-b border-[var(--border-strong)] px-4 pt-3 pb-6 space-y-3 animate-in fade-in slide-in-from-top-4 duration-200">
           <a
             href="#advocacia"
             onClick={() => setMobileMenuOpen(false)}
@@ -98,28 +101,28 @@ export const Navbar: React.FC = () => {
           <a
             href="#produtos"
             onClick={() => setMobileMenuOpen(false)}
-            className="block px-3 py-2.5 rounded-lg text-base font-medium text-[#f8f8f2] hover:bg-[#44475a]"
+            className="block px-3 py-2.5 rounded-lg text-base font-medium text-[var(--text-main)] hover:bg-[var(--bg-elevated)]"
           >
             Ecossistema de Produtos
           </a>
           <a
             href="#cases"
             onClick={() => setMobileMenuOpen(false)}
-            className="block px-3 py-2.5 rounded-lg text-base font-medium text-[#f8f8f2] hover:bg-[#44475a]"
+            className="block px-3 py-2.5 rounded-lg text-base font-medium text-[var(--text-main)] hover:bg-[var(--bg-elevated)]"
           >
             Cases Reais (Concept Odontologia)
           </a>
           <a
             href="#roi"
             onClick={() => setMobileMenuOpen(false)}
-            className="block px-3 py-2.5 rounded-lg text-base font-medium text-[#f8f8f2] hover:bg-[#44475a]"
+            className="block px-3 py-2.5 rounded-lg text-base font-medium text-[var(--text-main)] hover:bg-[var(--bg-elevated)]"
           >
             Calculadora de ROI Reverso
           </a>
           <a
             href="#engenharia"
             onClick={() => setMobileMenuOpen(false)}
-            className="block px-3 py-2.5 rounded-lg text-base font-medium text-[#f8f8f2] hover:bg-[#44475a]"
+            className="block px-3 py-2.5 rounded-lg text-base font-medium text-[var(--text-main)] hover:bg-[var(--bg-elevated)]"
           >
             Como Construímos Software
           </a>
@@ -128,7 +131,7 @@ export const Navbar: React.FC = () => {
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => setMobileMenuOpen(false)}
-            className="block px-3 py-2.5 rounded-lg text-base font-medium text-[#ffb86c] hover:bg-[#44475a]"
+            className="block px-3 py-2.5 rounded-lg text-base font-medium text-[#ffb86c] hover:bg-[var(--bg-elevated)]"
           >
             Portal SPED Fácil ➔
           </a>
