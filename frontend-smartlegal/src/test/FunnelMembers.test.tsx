@@ -12,15 +12,17 @@ describe('SmartLegal 2-Stage Funnel & Member Portal', () => {
     vi.restoreAllMocks();
   });
 
-  it('renders Member Area CTA in top navigation', () => {
+  it('renders Member Area CTA in top navigation and hero section', () => {
     render(<App />);
-    expect(screen.getByText(/Área do Advogado/i)).toBeInTheDocument();
+    expect(screen.getByTestId('header-member-login-btn')).toBeInTheDocument();
+    expect(screen.getByTestId('hero-member-access-btn')).toBeInTheDocument();
+    expect(screen.getByText(/Mimos Exclusivos OAB/i)).toBeInTheDocument();
   });
 
-  it('opens Login Modal when clicking on Member Area CTA', () => {
+  it('opens Login Modal when clicking on Member Area CTA in header or hero', () => {
     render(<App />);
-    const memberBtn = screen.getByText(/Área do Advogado/i);
-    fireEvent.click(memberBtn);
+    const headerMemberBtn = screen.getByTestId('header-member-login-btn');
+    fireEvent.click(headerMemberBtn);
 
     expect(screen.getByText(/Área de Membros Jurídica/i)).toBeInTheDocument();
     expect(screen.getByText(/Acesso Rápido para Demonstração/i)).toBeInTheDocument();
@@ -28,8 +30,8 @@ describe('SmartLegal 2-Stage Funnel & Member Portal', () => {
 
   it('allows quick demo login and directs user into Stage 1 and Stage 2 Dashboard', async () => {
     render(<App />);
-    const memberBtn = screen.getByText(/Área do Advogado/i);
-    fireEvent.click(memberBtn);
+    const heroMemberBtn = screen.getByTestId('hero-member-access-btn');
+    fireEvent.click(heroMemberBtn);
 
     const quickAccessBtn = screen.getByText(/Acesso Rápido para Demonstração/i);
     fireEvent.click(quickAccessBtn);
