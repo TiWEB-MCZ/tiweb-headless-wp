@@ -10,9 +10,11 @@ import {
   Cpu,
   ShieldCheck,
   Zap,
+  CheckCircle,
 } from 'lucide-react';
 import { SITEMAP_NODES, SITEMAP_EDGES, SitemapNode } from '../../data/sitemapNodes';
 import { NodePreviewModal } from './NodePreviewModal';
+import { useExplorationGame } from '../../context/ExplorationGameContext';
 
 interface GamifiedSitemapProps {
   isModal?: boolean;
@@ -25,6 +27,7 @@ export const GamifiedSitemap: React.FC<GamifiedSitemapProps> = ({
   onClose,
   className = '',
 }) => {
+  const { markNodeVisited, isNodeVisited } = useExplorationGame();
   const [selectedNode, setSelectedNode] = useState<SitemapNode | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('Todos');
   const [hoveredNodeId, setHoveredNodeId] = useState<string | null>(null);
@@ -42,6 +45,11 @@ export const GamifiedSitemap: React.FC<GamifiedSitemapProps> = ({
   const activeNodeIds = useMemo(() => {
     return new Set(filteredNodes.map((n) => n.id));
   }, [filteredNodes]);
+
+  const handleSelectNode = (node: SitemapNode) => {
+    markNodeVisited(node.id);
+    setSelectedNode(node);
+  };
 
   return (
     <section
@@ -145,12 +153,13 @@ export const GamifiedSitemap: React.FC<GamifiedSitemapProps> = ({
             const isMatch = activeNodeIds.has(node.id);
             const isHovered = hoveredNodeId === node.id;
             const isCore = node.id === 'core-hub';
+            const isVisited = isNodeVisited(node.id);
 
             return (
               <motion.div
                 key={node.id}
                 data-testid={`sitemap-node-${node.id}`}
-                onClick={() => setSelectedNode(node)}
+                onClick={() => handleSelectNode(node)}
                 onMouseEnter={() => setHoveredNodeId(node.id)}
                 onMouseLeave={() => setHoveredNodeId(null)}
                 style={{
@@ -164,19 +173,26 @@ export const GamifiedSitemap: React.FC<GamifiedSitemapProps> = ({
               >
                 <div
                   className={`flex flex-col items-center justify-center p-3 rounded-2xl border transition-all duration-300 ${
-                    isCore
+                    isVisited
+                      ? 'border-[#50fa7b] shadow-[0_0_15px_rgba(80,250,123,0.3)] bg-[var(--bg-elevated)]'
+                      : isCore
                       ? 'bg-[var(--bg-elevated)] border-[#bd93f9] shadow-[0_0_25px_rgba(189,147,249,0.35)]'
                       : 'bg-[var(--bg-surface)] hover:bg-[var(--bg-elevated)] border-[var(--border-subtle)] hover:border-[#8be9fd]'
                   } ${isHovered ? 'scale-110 shadow-xl' : ''}`}
                 >
                   <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center mb-1.5 shadow-sm"
+                    className="w-10 h-10 rounded-xl flex items-center justify-center mb-1.5 shadow-sm relative"
                     style={{
                       backgroundColor: `${node.accentColor}20`,
                       color: node.accentColor,
                     }}
                   >
                     <Layers className="w-5 h-5" />
+                    {isVisited && (
+                      <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#50fa7b] text-slate-950 flex items-center justify-center text-[10px] font-bold">
+                        ✓
+                      </span>
+                    )}
                   </div>
 
                   <span className="text-xs sm:text-sm font-bold text-[var(--text-main)] text-center whitespace-nowrap">
@@ -186,12 +202,12 @@ export const GamifiedSitemap: React.FC<GamifiedSitemapProps> = ({
                   <span
                     className="text-[9px] font-mono px-1.5 py-0.5 rounded-full mt-1 border"
                     style={{
-                      color: node.accentColor,
-                      borderColor: `${node.accentColor}40`,
-                      backgroundColor: `${node.accentColor}10`,
+                      color: isVisited ? '#50fa7b' : node.accentColor,
+                      borderColor: isVisited ? '#50fa7b60' : `${node.accentColor}40`,
+                      backgroundColor: isVisited ? '#50fa7b15' : `${node.accentColor}10`,
                     }}
                   >
-                    {node.badge}
+                    {isVisited ? '✓ EXPLORADO' : node.badge}
                   </span>
                 </div>
               </motion.div>
@@ -201,44 +217,53 @@ export const GamifiedSitemap: React.FC<GamifiedSitemapProps> = ({
 
         {/* Mobile View: Responsive Interactive Grid of Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:hidden">
-          {filteredNodes.map((node) => (
-            <div
-              key={node.id}
-              data-testid={`sitemap-node-mobile-${node.id}`}
-              onClick={() => setSelectedNode(node)}
-              className="p-5 rounded-2xl bg-[var(--bg-surface)] border border-[var(--border-subtle)] hover:border-[#8be9fd] transition-all cursor-pointer shadow-sm flex flex-col justify-between"
-            >
-              <div>
-                <div className="flex items-center justify-between mb-3">
-                  <span
-                    className="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full border"
-                    style={{
-                      color: node.accentColor,
-                      borderColor: `${node.accentColor}50`,
-                      backgroundColor: `${node.accentColor}15`,
-                    }}
-                  >
-                    {node.category}
-                  </span>
-                  <span className="text-[10px] font-mono font-semibold text-[var(--text-muted)]">
-                    {node.badge}
-                  </span>
+          {filteredNodes.map((node) => {
+            const isVisited = isNodeVisited(node.id);
+            return (
+              <div
+                key={node.id}
+                data-testid={`sitemap-node-mobile-${node.id}`}
+                onClick={() => handleSelectNode(node)}
+                className={`p-5 rounded-2xl bg-[var(--bg-surface)] border transition-all cursor-pointer shadow-sm flex flex-col justify-between ${
+                  isVisited ? 'border-[#50fa7b]/60 shadow-[0_0_12px_rgba(80,250,123,0.15)]' : 'border-[var(--border-subtle)] hover:border-[#8be9fd]'
+                }`}
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <span
+                      className="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full border"
+                      style={{
+                        color: node.accentColor,
+                        borderColor: `${node.accentColor}50`,
+                        backgroundColor: `${node.accentColor}15`,
+                      }}
+                    >
+                      {node.category}
+                    </span>
+                    <span
+                      className={`text-[10px] font-mono font-semibold ${
+                        isVisited ? 'text-[#50fa7b]' : 'text-[var(--text-muted)]'
+                      }`}
+                    >
+                      {isVisited ? '✓ EXPLORADO' : node.badge}
+                    </span>
+                  </div>
+
+                  <div className="text-lg font-bold text-[var(--text-main)] mb-1">
+                    {node.label}
+                  </div>
+                  <p className="text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
+                    {node.shortDescription}
+                  </p>
                 </div>
 
-                <div className="text-lg font-bold text-[var(--text-main)] mb-1">
-                  {node.label}
+                <div className="flex items-center justify-between pt-3 border-t border-[var(--border-subtle)] text-xs font-semibold text-[var(--accent-purple)]">
+                  <span>Inspecionar nó</span>
+                  <ArrowRight className="w-4 h-4" />
                 </div>
-                <p className="text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
-                  {node.shortDescription}
-                </p>
               </div>
-
-              <div className="flex items-center justify-between pt-3 border-t border-[var(--border-subtle)] text-xs font-semibold text-[var(--accent-purple)]">
-                <span>Inspecionar nó</span>
-                <ArrowRight className="w-4 h-4" />
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 
