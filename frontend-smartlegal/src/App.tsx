@@ -73,7 +73,8 @@ export const App: React.FC = () => {
             {isAuth ? (
               <button
                 onClick={() => setShowMemberDashboard(true)}
-                className="px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold text-emerald-300 bg-emerald-500/10 border border-emerald-500/30 hover:bg-emerald-500/20 transition flex items-center gap-1.5 cursor-pointer"
+                data-testid="header-member-dashboard-btn"
+                className="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold text-emerald-300 bg-emerald-500/15 border-2 border-emerald-400/50 hover:bg-emerald-500/25 shadow-[0_0_15px_rgba(16,185,129,0.2)] hover:shadow-[0_0_20px_rgba(16,185,129,0.35)] transition-all flex items-center gap-2 cursor-pointer active:scale-95"
               >
                 <UserCheck className="w-4 h-4 text-emerald-400" />
                 <span>Área de Membros (Ativo)</span>
@@ -81,9 +82,10 @@ export const App: React.FC = () => {
             ) : (
               <button
                 onClick={() => setShowLoginModal(true)}
-                className="px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold text-amber-300 bg-amber-500/10 border border-amber-500/30 hover:bg-amber-500/20 transition flex items-center gap-1.5 cursor-pointer"
+                data-testid="header-member-login-btn"
+                className="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold text-amber-200 bg-gradient-to-r from-amber-500/20 via-amber-600/30 to-amber-500/20 border-2 border-amber-400/70 hover:border-amber-300 shadow-[0_0_18px_rgba(245,158,11,0.25)] hover:shadow-[0_0_25px_rgba(245,158,11,0.45)] hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-2 cursor-pointer"
               >
-                <Lock className="w-3.5 h-3.5 text-amber-400" />
+                <Lock className="w-4 h-4 text-amber-400" />
                 <span>Área do Advogado (Mimos Free)</span>
               </button>
             )}
@@ -142,6 +144,16 @@ export const App: React.FC = () => {
                 <span>Simular Atendente no WhatsApp</span>
               </a>
 
+              <button
+                onClick={() => (isAuth ? setShowMemberDashboard(true) : setShowLoginModal(true))}
+                data-testid="hero-member-access-btn"
+                className="px-8 py-4 rounded-xl text-base font-bold text-amber-200 bg-gradient-to-r from-amber-500/25 via-amber-600/35 to-amber-500/25 hover:from-amber-500/35 hover:to-amber-500/35 border-2 border-amber-400/80 shadow-[0_0_25px_rgba(245,158,11,0.3)] hover:shadow-[0_0_35px_rgba(245,158,11,0.5)] hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-2.5 cursor-pointer group"
+              >
+                <Lock className="w-5 h-5 text-amber-400 group-hover:scale-110 transition-transform" />
+                <span>{isAuth ? 'Acessar Área de Membros (Ativo)' : 'Área do Advogado: Baixar Mimos Free'}</span>
+                <Sparkles className="w-4 h-4 text-amber-300 animate-pulse" />
+              </button>
+
               <a
                 href="#triagem"
                 className="px-8 py-4 rounded-xl text-base font-semibold text-[#f8f8f2] bg-[#282a36] hover:bg-[#44475a] border border-[#6272a4]/40 transition-colors flex items-center gap-2"
@@ -149,6 +161,15 @@ export const App: React.FC = () => {
                 <span>Explorar Áreas do Direito</span>
                 <ChevronRight className="w-4 h-4" />
               </a>
+            </div>
+
+            {/* Banner de Mimos OAB em Destaque */}
+            <div className="mt-8 inline-flex flex-wrap items-center justify-center gap-2 px-5 py-2.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-xs sm:text-sm text-amber-200/90 shadow-[0_0_15px_rgba(245,158,11,0.1)]">
+              <span className="font-bold text-amber-300 flex items-center gap-1.5">
+                <Sparkles className="w-4 h-4 text-amber-400" />
+                Mimos Exclusivos OAB:
+              </span>
+              <span>Kit de Petições com IA, Calculadora de Prazos e Checklist LGPD liberados na Área de Membros.</span>
             </div>
           </div>
         </section>
