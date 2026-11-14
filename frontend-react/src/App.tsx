@@ -3,6 +3,7 @@ import { ThemeProvider } from './context/ThemeContext';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { BentoGrid } from './components/BentoGrid';
+import { GamifiedSitemap } from './components/sitemap/GamifiedSitemap';
 import { LisaShowcaseSection } from './components/lisa/LisaShowcaseSection';
 import { LegalVerticalSection } from './components/legal/LegalVerticalSection';
 import { CasesShowcase } from './components/cases/CasesShowcase';
@@ -17,6 +18,7 @@ export const AppContent: React.FC = () => {
       <main className="flex-grow">
         <Hero />
         <BentoGrid />
+        <GamifiedSitemap />
         <LisaShowcaseSection />
         <LegalVerticalSection />
         <CasesShowcase />

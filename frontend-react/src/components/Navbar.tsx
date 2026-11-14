@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, X, Sparkles, Terminal, ChevronRight, Scale } from 'lucide-react';
+import { Menu, X, Sparkles, Terminal, ChevronRight, Scale, Compass } from 'lucide-react';
 import { getLisaWhatsAppUrl } from '../data/contact';
 import { ThemeToggle } from './ThemeToggle';
 
@@ -27,9 +27,16 @@ export const Navbar: React.FC = () => {
           </a>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-7 text-sm font-medium">
+          <nav className="hidden lg:flex items-center gap-6 text-sm font-medium">
             <a href="#produtos" className="text-[var(--text-secondary)] hover:text-[#8be9fd] transition-colors">
               Ecossistema
+            </a>
+            <a
+              href="#mapa"
+              className="text-[#8be9fd] hover:text-[var(--text-main)] flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#8be9fd]/10 border border-[#8be9fd]/30 transition-all font-semibold"
+            >
+              <Compass className="w-3.5 h-3.5" />
+              Mapa Interativo
             </a>
             <a
               href="#advocacia"
@@ -39,10 +46,10 @@ export const Navbar: React.FC = () => {
               Vertical Advocacia
             </a>
             <a href="#cases" className="text-[var(--text-secondary)] hover:text-[#50fa7b] transition-colors">
-              Cases Reais
+              Cases
             </a>
             <a href="#roi" className="text-[var(--text-secondary)] hover:text-[#8be9fd] transition-colors">
-              Simulador ROI
+              ROI
             </a>
             <a href="#engenharia" className="text-[var(--text-secondary)] hover:text-[var(--text-main)] transition-colors">
               Engenharia
@@ -90,6 +97,14 @@ export const Navbar: React.FC = () => {
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
         <div className="lg:hidden bg-[var(--bg-app)] border-b border-[var(--border-strong)] px-4 pt-3 pb-6 space-y-3 animate-in fade-in slide-in-from-top-4 duration-200">
+          <a
+            href="#mapa"
+            onClick={() => setMobileMenuOpen(false)}
+            className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-base font-semibold text-[#8be9fd] bg-[#8be9fd]/10 border border-[#8be9fd]/30"
+          >
+            <Compass className="w-4 h-4" />
+            Mapa Interativo do Ecossistema
+          </a>
           <a
             href="#advocacia"
             onClick={() => setMobileMenuOpen(false)}
