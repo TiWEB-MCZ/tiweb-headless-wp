@@ -1,18 +1,20 @@
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ExternalLink, ArrowRight, Sparkles, CheckCircle2 } from 'lucide-react';
-import { SitemapNode } from '../../data/sitemapNodes';
+import { X, ExternalLink, ArrowRight, Sparkles, CheckCircle2, Compass } from 'lucide-react';
+import { SitemapNode, SITEMAP_NODES } from '../../data/sitemapNodes';
 
 interface NodePreviewModalProps {
   node: SitemapNode | null;
   isOpen: boolean;
   onClose: () => void;
+  onSelectNode?: (node: SitemapNode) => void;
 }
 
 export const NodePreviewModal: React.FC<NodePreviewModalProps> = ({
   node,
   isOpen,
   onClose,
+  onSelectNode,
 }) => {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -25,6 +27,8 @@ export const NodePreviewModal: React.FC<NodePreviewModalProps> = ({
   }, [isOpen, onClose]);
 
   if (!isOpen || !node) return null;
+
+  const nextNode = SITEMAP_NODES.find((n) => n.id === node.nextSuggestedNodeId);
 
   return (
     <AnimatePresence>
@@ -114,8 +118,8 @@ export const NodePreviewModal: React.FC<NodePreviewModalProps> = ({
             </div>
           </div>
 
-          {/* Action Button */}
-          <div className="pt-4 border-t border-[var(--border-subtle)] flex gap-3">
+          {/* Action Button & Next Destination Badge */}
+          <div className="pt-4 border-t border-[var(--border-subtle)] flex flex-col sm:flex-row gap-3">
             <a
               href={node.targetUrl}
               target={node.isExternal ? '_blank' : '_self'}
@@ -123,7 +127,7 @@ export const NodePreviewModal: React.FC<NodePreviewModalProps> = ({
               onClick={() => {
                 onClose();
               }}
-              className="w-full py-3.5 px-6 rounded-xl text-sm font-bold text-slate-950 flex items-center justify-center gap-2 hover:shadow-lg active:scale-95 transition-all"
+              className="flex-1 py-3.5 px-5 rounded-xl text-sm font-bold text-slate-950 flex items-center justify-center gap-2 hover:shadow-lg active:scale-95 transition-all"
               style={{
                 background: `linear-gradient(135deg, ${node.accentColor}, #8be9fd)`,
               }}
@@ -135,6 +139,19 @@ export const NodePreviewModal: React.FC<NodePreviewModalProps> = ({
                 <ArrowRight className="w-4 h-4 shrink-0" />
               )}
             </a>
+
+            {nextNode && onSelectNode && (
+              <button
+                type="button"
+                onClick={() => onSelectNode(nextNode)}
+                className="py-3 px-4 rounded-xl text-xs font-semibold bg-[var(--bg-elevated)] hover:bg-[var(--border-strong)] text-[var(--text-main)] border border-[var(--border-subtle)] flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                title={`Ir para o próximo nó recomendado: ${nextNode.label}`}
+              >
+                <Compass className="w-3.5 h-3.5 text-[var(--accent-purple)]" />
+                <span>Próximo: {nextNode.label}</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            )}
           </div>
         </motion.div>
       </div>

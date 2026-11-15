@@ -19,8 +19,8 @@ export const AppContent: React.FC = () => {
       <Navbar />
       <main className="flex-grow">
         <Hero />
-        <BentoGrid />
         <GamifiedSitemap />
+        <BentoGrid />
         <LisaShowcaseSection />
         <LegalVerticalSection />
         <CasesShowcase />

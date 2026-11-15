@@ -1,6 +1,6 @@
 import React from 'react';
 import { ECOSYSTEM_PRODUCTS, EcosystemProduct } from '../data/products';
-import { ExternalLink, ArrowRight, Check, Layers, Sparkles } from 'lucide-react';
+import { ExternalLink, ArrowRight, Check, Layers, Sparkles, Compass } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export const BentoGrid: React.FC = () => {
@@ -9,9 +9,19 @@ export const BentoGrid: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="max-w-3xl mx-auto text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--bg-elevated)] border border-[var(--border-subtle)] text-xs font-mono text-[var(--accent-purple)] mb-4">
-            <Layers className="w-3.5 h-3.5" />
-            Ecossistema Multi-Produto TIWEB
+          <div className="flex flex-wrap items-center justify-center gap-2 mb-4">
+            <a
+              href="#mapa"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--bg-elevated)] hover:bg-[var(--border-strong)] border border-[var(--border-subtle)] text-xs font-mono text-[var(--text-secondary)] hover:text-[var(--text-main)] transition-colors shadow-xs"
+              title="Retornar à Constelação Tecnológica"
+            >
+              <Compass className="w-3.5 h-3.5 text-[var(--accent-purple)]" />
+              <span>Voltar à Constelação</span>
+            </a>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--bg-elevated)] border border-[var(--border-subtle)] text-xs font-mono text-[var(--accent-purple)]">
+              <Layers className="w-3.5 h-3.5" />
+              Ecossistema Multi-Produto TIWEB
+            </div>
           </div>
           <h2 className="text-3xl sm:text-5xl font-extrabold text-[var(--text-main)] tracking-tight">
             Nossos Pilares Tecnológicos
