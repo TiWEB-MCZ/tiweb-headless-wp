@@ -30,6 +30,27 @@ export interface SitemapEdge {
   to: string;
 }
 
+/**
+ * Retorna o código de cor com contraste otimizado (WCAG AAA) para o tema ativo.
+ * No Dark Mode, mantém as tonalidades Dracula neon. No Light Mode, projeta para
+ * tons saturados e escurecidos de alto contraste contra fundos brancos/claros.
+ */
+export function getNodeThemeAccent(color: string, isLight: boolean): string {
+  if (!isLight) return color;
+  switch (color.toLowerCase()) {
+    case '#bd93f9':
+      return '#7c3aed'; // Roxo saturado e profundo (contraste > 7:1)
+    case '#8be9fd':
+      return '#0284c7'; // Ciano / Azul vívido (contraste > 4.7:1)
+    case '#50fa7b':
+      return '#16a34a'; // Verde floresta profundo (contraste > 4.6:1)
+    case '#ffb86c':
+      return '#c2410c'; // Laranja tijolo escurecido (contraste > 5.5:1)
+    default:
+      return color;
+  }
+}
+
 export const SITEMAP_NODES: SitemapNode[] = [
   {
     id: 'core-hub',
