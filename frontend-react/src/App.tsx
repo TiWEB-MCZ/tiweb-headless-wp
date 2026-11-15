@@ -6,6 +6,7 @@ import { Hero } from './components/Hero';
 import { BentoGrid } from './components/BentoGrid';
 import { GamifiedSitemap } from './components/sitemap/GamifiedSitemap';
 import { ExplorerHud } from './components/sitemap/ExplorerHud';
+import { TeleportOverlay } from './components/sitemap/TeleportOverlay';
 import { LisaShowcaseSection } from './components/lisa/LisaShowcaseSection';
 import { LegalVerticalSection } from './components/legal/LegalVerticalSection';
 import { CasesShowcase } from './components/cases/CasesShowcase';
@@ -29,6 +30,7 @@ export const AppContent: React.FC = () => {
       </main>
       <Footer />
       <ExplorerHud />
+      <TeleportOverlay />
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
 import React from 'react';
 import {
@@ -101,5 +101,61 @@ describe('ExplorationGameContext', () => {
     const { result: reloadedResult } = renderHook(() => useExplorationGame(), { wrapper });
     expect(reloadedResult.current.visitedNodeIds).toContain('smartcontact');
     expect(reloadedResult.current.visitedCount).toBe(1);
+  });
+
+  it('teleports directly to a node, marks it visited, activates overlay state and scrolls', () => {
+    vi.useFakeTimers();
+    const scrollIntoViewMock = vi.fn();
+    const mockElement = { scrollIntoView: scrollIntoViewMock } as unknown as HTMLElement;
+    const getElementSpy = vi.spyOn(document, 'getElementById').mockReturnValue(mockElement);
+
+    const { result } = renderHook(() => useExplorationGame(), { wrapper });
+
+    act(() => {
+      result.current.teleportToNode('smartcontact');
+    });
+
+    expect(result.current.isNodeVisited('smartcontact')).toBe(true);
+    expect(result.current.teleportState.isActive).toBe(true);
+    expect(result.current.teleportState.targetLabel).toBe('SmartContact');
+
+    act(() => {
+      vi.advanceTimersByTime(150);
+    });
+    expect(getElementSpy).toHaveBeenCalledWith('produto-smartcontact');
+    expect(scrollIntoViewMock).toHaveBeenCalledWith({ behavior: 'smooth', block: 'start' });
+
+    act(() => {
+      vi.advanceTimersByTime(300);
+    });
+    expect(result.current.teleportState.isActive).toBe(false);
+
+    getElementSpy.mockRestore();
+    vi.useRealTimers();
+  });
+
+  it('teleports back to constellation map anchor', () => {
+    vi.useFakeTimers();
+    const scrollIntoViewMock = vi.fn();
+    const mockElement = { scrollIntoView: scrollIntoViewMock } as unknown as HTMLElement;
+    const getElementSpy = vi.spyOn(document, 'getElementById').mockReturnValue(mockElement);
+
+    const { result } = renderHook(() => useExplorationGame(), { wrapper });
+
+    act(() => {
+      result.current.teleportToMap();
+    });
+
+    expect(result.current.teleportState.isActive).toBe(true);
+    expect(result.current.teleportState.targetLabel).toBe('Constelação Tecnológica');
+
+    act(() => {
+      vi.advanceTimersByTime(150);
+    });
+    expect(getElementSpy).toHaveBeenCalledWith('mapa');
+    expect(scrollIntoViewMock).toHaveBeenCalledWith({ behavior: 'smooth', block: 'start' });
+
+    getElementSpy.mockRestore();
+    vi.useRealTimers();
   });
 });
