@@ -85,7 +85,7 @@ export const ExplorerHud: React.FC<ExplorerHudProps> = ({
                 </div>
                 <div className="w-full h-2 rounded-full bg-[var(--bg-elevated)] overflow-hidden">
                   <motion.div
-                    className="h-full bg-gradient-to-r from-[#bd93f9] via-[#8be9fd] to-[#50fa7b]"
+                    className="h-full bg-gradient-to-r from-[var(--accent-purple)] via-[var(--accent-cyan)] to-[var(--accent-green)]"
                     initial={{ width: 0 }}
                     animate={{ width: `${percentage}%` }}
                     transition={{ duration: 0.4 }}
@@ -103,12 +103,12 @@ export const ExplorerHud: React.FC<ExplorerHudProps> = ({
                     key={b.id}
                     className={`flex items-start gap-2.5 p-2.5 rounded-xl border transition-all text-xs ${
                       b.unlocked
-                        ? 'bg-[var(--bg-elevated)] border-[#50fa7b]/40 text-[var(--text-main)]'
+                        ? 'bg-[var(--bg-elevated)] border-[var(--accent-green)]/40 text-[var(--text-main)]'
                         : 'bg-[var(--bg-app)] border-[var(--border-subtle)] opacity-55 text-[var(--text-muted)]'
                     }`}
                   >
                     {b.unlocked ? (
-                      <CheckCircle2 className="w-4 h-4 text-[#50fa7b] shrink-0 mt-0.5" />
+                      <CheckCircle2 className="w-4 h-4 text-[var(--accent-green)] shrink-0 mt-0.5" />
                     ) : (
                       <Lock className="w-4 h-4 text-[var(--text-muted)] shrink-0 mt-0.5" />
                     )}
@@ -116,7 +116,7 @@ export const ExplorerHud: React.FC<ExplorerHudProps> = ({
                       <div className="font-bold flex items-center gap-1.5">
                         <span>{b.name}</span>
                         {b.unlocked && (
-                          <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-[#50fa7b]/15 text-[#50fa7b]">
+                          <span className="text-[9px] font-mono font-semibold px-1.5 py-0.2 rounded bg-[var(--accent-green)]/15 text-[var(--accent-green)]">
                             OK
                           </span>
                         )}
@@ -138,7 +138,7 @@ export const ExplorerHud: React.FC<ExplorerHudProps> = ({
                       setIsExpanded(false);
                       setIsRewardModalOpen(true);
                     }}
-                    className="flex-1 py-2.5 px-3 rounded-xl text-xs font-bold text-slate-950 bg-gradient-to-r from-[#50fa7b] to-[#8be9fd] flex items-center justify-center gap-1.5 cursor-pointer shadow-md animate-pulse"
+                    className="flex-1 py-2.5 px-3 rounded-xl text-xs font-bold text-white dark:text-slate-950 bg-gradient-to-r from-[var(--accent-green)] to-[var(--accent-cyan)] flex items-center justify-center gap-1.5 cursor-pointer shadow-md animate-pulse"
                   >
                     <Gift className="w-4 h-4" />
                     <span>Resgatar Diagnóstico</span>
@@ -174,7 +174,7 @@ export const ExplorerHud: React.FC<ExplorerHudProps> = ({
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               onClick={() => setIsRewardModalOpen(true)}
-              className="px-3.5 py-2 rounded-2xl bg-gradient-to-r from-[#50fa7b] to-[#8be9fd] text-slate-950 text-xs font-bold shadow-xl flex items-center gap-1.5 cursor-pointer animate-bounce"
+              className="px-3.5 py-2 rounded-2xl bg-gradient-to-r from-[var(--accent-green)] to-[var(--accent-cyan)] text-white dark:text-slate-950 text-xs font-bold shadow-xl flex items-center gap-1.5 cursor-pointer animate-bounce"
             >
               <Gift className="w-4 h-4" />
               <span>Diagnóstico Liberado!</span>
@@ -189,7 +189,7 @@ export const ExplorerHud: React.FC<ExplorerHudProps> = ({
           >
             <div className="w-7 h-7 rounded-xl bg-[var(--bg-elevated)] flex items-center justify-center text-[var(--accent-purple)]">
               {percentage >= 100 ? (
-                <Award className="w-4 h-4 text-[#50fa7b]" />
+                <Award className="w-4 h-4 text-[var(--accent-green)]" />
               ) : (
                 <Compass className="w-4 h-4" />
               )}

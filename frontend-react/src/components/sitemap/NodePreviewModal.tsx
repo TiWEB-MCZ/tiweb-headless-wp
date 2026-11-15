@@ -1,19 +1,25 @@
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ExternalLink, ArrowRight, Sparkles, CheckCircle2 } from 'lucide-react';
-import { SitemapNode } from '../../data/sitemapNodes';
+import { X, ExternalLink, ArrowRight, Sparkles, CheckCircle2, Compass } from 'lucide-react';
+import { SitemapNode, SITEMAP_NODES, getNodeThemeAccent } from '../../data/sitemapNodes';
+import { useTheme } from '../../context/ThemeContext';
 
 interface NodePreviewModalProps {
   node: SitemapNode | null;
   isOpen: boolean;
   onClose: () => void;
+  onSelectNode?: (node: SitemapNode) => void;
 }
 
 export const NodePreviewModal: React.FC<NodePreviewModalProps> = ({
   node,
   isOpen,
   onClose,
+  onSelectNode,
 }) => {
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) {
@@ -25,6 +31,9 @@ export const NodePreviewModal: React.FC<NodePreviewModalProps> = ({
   }, [isOpen, onClose]);
 
   if (!isOpen || !node) return null;
+
+  const nextNode = SITEMAP_NODES.find((n) => n.id === node.nextSuggestedNodeId);
+  const accent = getNodeThemeAccent(node.accentColor, isLight);
 
   return (
     <AnimatePresence>
@@ -44,7 +53,7 @@ export const NodePreviewModal: React.FC<NodePreviewModalProps> = ({
           {/* Top Glow Accent */}
           <div
             className="absolute -top-24 -right-24 w-48 h-48 rounded-full blur-[80px] pointer-events-none opacity-40"
-            style={{ backgroundColor: node.accentColor }}
+            style={{ backgroundColor: accent }}
           />
 
           {/* Close button */}
@@ -62,9 +71,9 @@ export const NodePreviewModal: React.FC<NodePreviewModalProps> = ({
             <span
               className="text-xs font-mono font-bold px-3 py-1 rounded-full border"
               style={{
-                color: node.accentColor,
-                borderColor: `${node.accentColor}50`,
-                backgroundColor: `${node.accentColor}15`,
+                color: accent,
+                borderColor: `${accent}60`,
+                backgroundColor: `${accent}18`,
               }}
             >
               {node.category}
@@ -73,7 +82,7 @@ export const NodePreviewModal: React.FC<NodePreviewModalProps> = ({
             <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-[var(--bg-elevated)] text-[var(--text-main)] border border-[var(--border-subtle)] flex items-center gap-1 font-semibold">
               <span
                 className="w-1.5 h-1.5 rounded-full animate-ping"
-                style={{ backgroundColor: node.accentColor }}
+                style={{ backgroundColor: accent }}
               />
               {node.badge}
             </span>
@@ -85,7 +94,7 @@ export const NodePreviewModal: React.FC<NodePreviewModalProps> = ({
           </h3>
           <p
             className="text-sm font-semibold mb-4"
-            style={{ color: node.accentColor }}
+            style={{ color: accent }}
           >
             {node.tagline}
           </p>
@@ -107,15 +116,15 @@ export const NodePreviewModal: React.FC<NodePreviewModalProps> = ({
                   key={idx}
                   className="text-xs font-mono px-2.5 py-1 rounded-lg bg-[var(--bg-elevated)] text-[var(--text-main)] border border-[var(--border-subtle)] flex items-center gap-1"
                 >
-                  <CheckCircle2 className="w-3 h-3 text-[#50fa7b]" />
+                  <CheckCircle2 className="w-3 h-3 text-[var(--accent-green)]" />
                   {tech}
                 </span>
               ))}
             </div>
           </div>
 
-          {/* Action Button */}
-          <div className="pt-4 border-t border-[var(--border-subtle)] flex gap-3">
+          {/* Action Button & Next Destination Badge */}
+          <div className="pt-4 border-t border-[var(--border-subtle)] flex flex-col sm:flex-row gap-3">
             <a
               href={node.targetUrl}
               target={node.isExternal ? '_blank' : '_self'}
@@ -123,9 +132,11 @@ export const NodePreviewModal: React.FC<NodePreviewModalProps> = ({
               onClick={() => {
                 onClose();
               }}
-              className="w-full py-3.5 px-6 rounded-xl text-sm font-bold text-slate-950 flex items-center justify-center gap-2 hover:shadow-lg active:scale-95 transition-all"
+              className="flex-1 py-3.5 px-5 rounded-xl text-sm font-bold text-white dark:text-slate-950 flex items-center justify-center gap-2 hover:shadow-lg active:scale-95 transition-all shadow-md"
               style={{
-                background: `linear-gradient(135deg, ${node.accentColor}, #8be9fd)`,
+                background: isLight
+                  ? `linear-gradient(135deg, ${accent}, #0284c7)`
+                  : `linear-gradient(135deg, ${node.accentColor}, #8be9fd)`,
               }}
             >
               <span>Acessar Destino</span>
@@ -135,6 +146,19 @@ export const NodePreviewModal: React.FC<NodePreviewModalProps> = ({
                 <ArrowRight className="w-4 h-4 shrink-0" />
               )}
             </a>
+
+            {nextNode && onSelectNode && (
+              <button
+                type="button"
+                onClick={() => onSelectNode(nextNode)}
+                className="py-3 px-4 rounded-xl text-xs font-semibold bg-[var(--bg-elevated)] hover:bg-[var(--border-strong)] text-[var(--text-main)] border border-[var(--border-subtle)] flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                title={`Ir para o próximo nó recomendado: ${nextNode.label}`}
+              >
+                <Compass className="w-3.5 h-3.5 text-[var(--accent-purple)]" />
+                <span>Próximo: {nextNode.label}</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            )}
           </div>
         </motion.div>
       </div>

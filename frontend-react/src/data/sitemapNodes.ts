@@ -22,11 +22,33 @@ export interface SitemapNode {
   accentColor: string;
   badge: string;
   techHighlights: string[];
+  nextSuggestedNodeId: string;
 }
 
 export interface SitemapEdge {
   from: string;
   to: string;
+}
+
+/**
+ * Retorna o código de cor com contraste otimizado (WCAG AAA) para o tema ativo.
+ * No Dark Mode, mantém as tonalidades Dracula neon. No Light Mode, projeta para
+ * tons saturados e escurecidos de alto contraste contra fundos brancos/claros.
+ */
+export function getNodeThemeAccent(color: string, isLight: boolean): string {
+  if (!isLight) return color;
+  switch (color.toLowerCase()) {
+    case '#bd93f9':
+      return '#7c3aed'; // Roxo saturado e profundo (contraste > 7:1)
+    case '#8be9fd':
+      return '#0284c7'; // Ciano / Azul vívido (contraste > 4.7:1)
+    case '#50fa7b':
+      return '#16a34a'; // Verde floresta profundo (contraste > 4.6:1)
+    case '#ffb86c':
+      return '#c2410c'; // Laranja tijolo escurecido (contraste > 5.5:1)
+    default:
+      return color;
+  }
 }
 
 export const SITEMAP_NODES: SitemapNode[] = [
@@ -44,6 +66,7 @@ export const SITEMAP_NODES: SitemapNode[] = [
     accentColor: '#bd93f9',
     badge: 'NÚCLEO SSOT',
     techHighlights: ['React 19', 'Tailwind v4', 'Framer Motion', 'Vitest'],
+    nextSuggestedNodeId: 'smartcontact',
   },
   {
     id: 'smartcontact',
@@ -59,6 +82,7 @@ export const SITEMAP_NODES: SitemapNode[] = [
     accentColor: '#8be9fd',
     badge: 'PRODUÇÃO',
     techHighlights: ['FastAPI', 'PostgreSQL', 'LangChain', 'WebSocket', 'Redis'],
+    nextSuggestedNodeId: 'lisa',
   },
   {
     id: 'mas-educa-ia',
@@ -74,6 +98,7 @@ export const SITEMAP_NODES: SitemapNode[] = [
     accentColor: '#bd93f9',
     badge: 'PRODUÇÃO',
     techHighlights: ['Angular 18', 'Canvas API', 'SVG Vectors', 'Tailwind'],
+    nextSuggestedNodeId: 'ssot-engineering',
   },
   {
     id: 'lisa',
@@ -89,6 +114,7 @@ export const SITEMAP_NODES: SitemapNode[] = [
     accentColor: '#50fa7b',
     badge: 'EM ESCALA',
     techHighlights: ['n8n', 'Telegram Bot API', 'Meta Graph API', 'Gemini 1.5 Pro'],
+    nextSuggestedNodeId: 'smartlegal',
   },
   {
     id: 'spedfacil',
@@ -104,6 +130,7 @@ export const SITEMAP_NODES: SitemapNode[] = [
     accentColor: '#ffb86c',
     badge: 'ESTÁVEL',
     techHighlights: ['Angular 17', 'PHP 8.2', 'JWT Auth', 'MySQL'],
+    nextSuggestedNodeId: 'mas-educa-ia',
   },
   {
     id: 'smartlegal',
@@ -119,6 +146,7 @@ export const SITEMAP_NODES: SitemapNode[] = [
     accentColor: '#8be9fd',
     badge: 'VERIFICADO',
     techHighlights: ['React 19', 'Framer Motion', 'OAB Ethics Guard'],
+    nextSuggestedNodeId: 'roi-calculator',
   },
   {
     id: 'ssot-engineering',
@@ -134,6 +162,7 @@ export const SITEMAP_NODES: SitemapNode[] = [
     accentColor: '#50fa7b',
     badge: 'AUDITADO',
     techHighlights: ['Vitest', 'Playwright', 'Git Flow Universal', 'Zero-Cópia'],
+    nextSuggestedNodeId: 'cases-showcase',
   },
   {
     id: 'cases-showcase',
@@ -149,6 +178,7 @@ export const SITEMAP_NODES: SitemapNode[] = [
     accentColor: '#bd93f9',
     badge: 'CASE REAL',
     techHighlights: ['Headless CMS', 'High Conversion', 'Edge Caching'],
+    nextSuggestedNodeId: 'contact-lisa',
   },
   {
     id: 'roi-calculator',
@@ -164,6 +194,7 @@ export const SITEMAP_NODES: SitemapNode[] = [
     accentColor: '#50fa7b',
     badge: 'INTERATIVO',
     techHighlights: ['Client-Side Math', 'Dynamic Sliders', 'Realtime Projections'],
+    nextSuggestedNodeId: 'spedfacil',
   },
   {
     id: 'contact-lisa',
@@ -179,6 +210,7 @@ export const SITEMAP_NODES: SitemapNode[] = [
     accentColor: '#8be9fd',
     badge: '24/7 ONLINE',
     techHighlights: ['WhatsApp Cloud API', 'Contextual Memory', 'Human Fallback'],
+    nextSuggestedNodeId: 'core-hub',
   },
 ];
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Bot, Check, MessageCircle, Sparkles, ShieldCheck } from 'lucide-react';
+import { Bot, Check, MessageCircle, Sparkles, ShieldCheck, Compass } from 'lucide-react';
 import { LISA_CAPABILITIES } from '../../data/lisaFeatures';
 import { getLisaWhatsAppUrl } from '../../data/contact';
 
@@ -18,9 +18,19 @@ export const LisaShowcaseSection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <div className="max-w-3xl mx-auto text-center mb-14">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--bg-elevated)] border border-[#50fa7b]/40 text-xs font-mono text-[#50fa7b] mb-4">
-            <Bot className="w-4 h-4" />
-            ASSISTENTE COGNITIVA & AUTOMAÇÃO PLUS
+          <div className="flex flex-wrap items-center justify-center gap-2 mb-4">
+            <a
+              href="#mapa"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--bg-elevated)] hover:bg-[var(--border-strong)] border border-[var(--border-subtle)] text-xs font-mono text-[var(--text-secondary)] hover:text-[var(--text-main)] transition-colors shadow-xs"
+              title="Retornar à Constelação Tecnológica"
+            >
+              <Compass className="w-3.5 h-3.5 text-[var(--accent-purple)]" />
+              <span>Voltar à Constelação</span>
+            </a>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--bg-elevated)] border border-[#50fa7b]/40 text-xs font-mono text-[#50fa7b]">
+              <Bot className="w-4 h-4" />
+              ASSISTENTE COGNITIVA & AUTOMAÇÃO PLUS
+            </div>
           </div>
 
           <h2 className="text-3xl sm:text-5xl font-extrabold text-[var(--text-main)] tracking-tight">

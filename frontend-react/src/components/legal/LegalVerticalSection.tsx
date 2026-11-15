@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { WhatsAppSimulator } from './WhatsAppSimulator';
 import { LegalPresentationModal } from './LegalPresentationModal';
-import { Scale, Presentation, ShieldCheck, ArrowRight, Sparkles, CheckCircle2, ExternalLink } from 'lucide-react';
+import { Scale, Presentation, ShieldCheck, ArrowRight, Sparkles, CheckCircle2, ExternalLink, Compass } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export const LegalVerticalSection: React.FC = () => {
@@ -16,9 +16,19 @@ export const LegalVerticalSection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <div className="max-w-3xl mx-auto text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--bg-elevated)] border border-[#bd93f9]/40 text-xs font-mono text-[var(--accent-purple)] mb-4">
-            <Scale className="w-4 h-4" />
-            Vertical Especializada // Advocacia 4.0
+          <div className="flex flex-wrap items-center justify-center gap-2 mb-4">
+            <a
+              href="#mapa"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--bg-elevated)] hover:bg-[var(--border-strong)] border border-[var(--border-subtle)] text-xs font-mono text-[var(--text-secondary)] hover:text-[var(--text-main)] transition-colors shadow-xs"
+              title="Retornar à Constelação Tecnológica"
+            >
+              <Compass className="w-3.5 h-3.5 text-[var(--accent-purple)]" />
+              <span>Voltar à Constelação</span>
+            </a>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--bg-elevated)] border border-[#bd93f9]/40 text-xs font-mono text-[var(--accent-purple)]">
+              <Scale className="w-4 h-4" />
+              Vertical Especializada // Advocacia 4.0
+            </div>
           </div>
           <h2 className="text-3xl sm:text-5xl font-extrabold text-[var(--text-main)] tracking-tight">
             Inteligência Artificial & Atendimento para a{' '}
