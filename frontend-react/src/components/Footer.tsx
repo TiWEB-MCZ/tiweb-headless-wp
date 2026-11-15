@@ -1,6 +1,7 @@
 import React from 'react';
 import { Terminal, Shield, ArrowUp } from 'lucide-react';
 import { ThemeToggle } from './ThemeToggle';
+import { TrailNavigationBadges } from './sitemap/TrailNavigationBadges';
 
 export const Footer: React.FC = () => {
   const scrollToTop = () => {
@@ -8,8 +9,9 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer id="contato" className="bg-[var(--bg-surface)] border-t border-[var(--border-strong)] pt-16 pb-12 text-[var(--text-muted)] text-sm transition-colors duration-200">
+    <footer id="contato" className="bg-[var(--bg-surface)] border-t border-[var(--border-strong)] pt-12 pb-12 text-[var(--text-muted)] text-sm transition-colors duration-200 scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <TrailNavigationBadges currentNodeId="contact-lisa" className="mb-10" />
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
           {/* Coluna 1: Marca */}
           <div className="md:col-span-2">

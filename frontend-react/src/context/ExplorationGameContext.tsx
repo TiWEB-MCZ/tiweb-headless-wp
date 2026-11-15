@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from 'react';
+import React, { createContext, useContext, useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { SITEMAP_NODES } from '../data/sitemapNodes';
 
 export interface ExplorationBadge {
@@ -9,6 +9,13 @@ export interface ExplorationBadge {
   unlocked: boolean;
 }
 
+export interface TeleportState {
+  isActive: boolean;
+  targetLabel: string;
+  targetBadge?: string;
+  accentColor?: string;
+}
+
 interface ExplorationGameContextType {
   visitedNodeIds: string[];
   totalNodes: number;
@@ -17,9 +24,12 @@ interface ExplorationGameContextType {
   currentRank: string;
   badges: ExplorationBadge[];
   isRewardUnlocked: boolean;
+  teleportState: TeleportState;
   markNodeVisited: (nodeId: string) => void;
   resetProgress: () => void;
   isNodeVisited: (nodeId: string) => boolean;
+  teleportToNode: (nodeId: string) => void;
+  teleportToMap: () => void;
 }
 
 const STORAGE_KEY = 'tiweb_sitemap_explored_nodes_v1';
@@ -91,12 +101,74 @@ export const ExplorationGameProvider: React.FC<{ children: React.ReactNode }> = 
 
   const isRewardUnlocked = percentage >= 100;
 
+  const [teleportState, setTeleportState] = useState<TeleportState>({
+    isActive: false,
+    targetLabel: '',
+  });
+  const scrollTimerRef = useRef<number | null>(null);
+  const fadeTimerRef = useRef<number | null>(null);
+
+  const clearTeleportTimers = useCallback(() => {
+    if (scrollTimerRef.current !== null) {
+      window.clearTimeout(scrollTimerRef.current);
+      scrollTimerRef.current = null;
+    }
+    if (fadeTimerRef.current !== null) {
+      window.clearTimeout(fadeTimerRef.current);
+      fadeTimerRef.current = null;
+    }
+  }, []);
+
+  useEffect(() => {
+    return () => clearTeleportTimers();
+  }, [clearTeleportTimers]);
+
   const markNodeVisited = useCallback((nodeId: string) => {
     setVisitedNodeIds((prev) => {
       if (prev.includes(nodeId)) return prev;
       return [...prev, nodeId];
     });
   }, []);
+
+  const triggerTeleportScroll = useCallback(
+    (anchorId: string, label: string, badge?: string, accentColor?: string) => {
+      clearTeleportTimers();
+      setTeleportState({
+        isActive: true,
+        targetLabel: label,
+        targetBadge: badge,
+        accentColor,
+      });
+
+      const scrollToAnchor = () => {
+        if (typeof document === 'undefined') return;
+        const el = document.getElementById(anchorId);
+        if (el && typeof el.scrollIntoView === 'function') {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      };
+
+      scrollTimerRef.current = window.setTimeout(scrollToAnchor, 140);
+      fadeTimerRef.current = window.setTimeout(() => {
+        setTeleportState({ isActive: false, targetLabel: '' });
+      }, 420);
+    },
+    [clearTeleportTimers]
+  );
+
+  const teleportToNode = useCallback(
+    (nodeId: string) => {
+      const node = SITEMAP_NODES.find((n) => n.id === nodeId);
+      if (!node) return;
+      markNodeVisited(node.id);
+      triggerTeleportScroll(node.sectionAnchorId, node.label, node.category, node.accentColor);
+    },
+    [markNodeVisited, triggerTeleportScroll]
+  );
+
+  const teleportToMap = useCallback(() => {
+    triggerTeleportScroll('mapa', 'Constelação Tecnológica', 'HUB CENTRAL', '#bd93f9');
+  }, [triggerTeleportScroll]);
 
   const resetProgress = useCallback(() => {
     setVisitedNodeIds([]);
@@ -124,9 +196,12 @@ export const ExplorationGameProvider: React.FC<{ children: React.ReactNode }> = 
         currentRank,
         badges,
         isRewardUnlocked,
+        teleportState,
         markNodeVisited,
         resetProgress,
         isNodeVisited,
+        teleportToNode,
+        teleportToMap,
       }}
     >
       {children}
@@ -140,4 +215,8 @@ export const useExplorationGame = (): ExplorationGameContextType => {
     throw new Error('useExplorationGame must be used within an ExplorationGameProvider');
   }
   return context;
+};
+
+export const useOptionalExplorationGame = (): ExplorationGameContextType | undefined => {
+  return useContext(ExplorationGameContext);
 };

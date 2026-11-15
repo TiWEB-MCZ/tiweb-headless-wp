@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { SHOWCASE_CASES, ShowcaseCase } from '../../data/cases';
-import { ExternalLink, Check, Sparkles, FolderGit2, ArrowRight, Compass } from 'lucide-react';
+import { ExternalLink, Check, Sparkles, FolderGit2, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { TrailNavigationBadges } from '../sitemap/TrailNavigationBadges';
 
 export const CasesShowcase: React.FC = () => {
   const [selectedSegment, setSelectedSegment] = useState<string>('Todos');
@@ -17,15 +18,8 @@ export const CasesShowcase: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="max-w-3xl mx-auto text-center mb-12">
-          <div className="flex flex-wrap items-center justify-center gap-2 mb-4">
-            <a
-              href="#mapa"
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--bg-elevated)] hover:bg-[var(--border-strong)] border border-[var(--border-subtle)] text-xs font-mono text-[var(--text-secondary)] hover:text-[var(--text-main)] transition-colors shadow-xs"
-              title="Retornar à Constelação Tecnológica"
-            >
-              <Compass className="w-3.5 h-3.5 text-[var(--accent-purple)]" />
-              <span>Voltar à Constelação</span>
-            </a>
+          <div className="flex flex-col items-center gap-3 mb-4">
+            <TrailNavigationBadges currentNodeId="cases-showcase" />
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--bg-elevated)] border border-[var(--border-subtle)] text-xs font-mono text-[var(--accent-cyan)]">
               <FolderGit2 className="w-3.5 h-3.5" />
               Portfólio & Engenharia Aplicada

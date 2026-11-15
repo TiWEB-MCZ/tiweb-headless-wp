@@ -110,14 +110,15 @@ test.describe('Varredura Visual e Auditoria de Tema (Dark vs Light Mode)', () =>
     const sitemapNode = page.locator('[data-testid="sitemap-node-smartcontact"]').first();
     await expect(sitemapNode).toBeVisible();
 
-    // Abre o modal de prévia do nó
+    // Clica no nó para teletransporte direto (sem modal intermediária bloqueante)
     await sitemapNode.click();
-    const modal = page.locator('[data-testid="node-preview-modal"]');
-    await expect(modal).toBeVisible();
-    await expect(modal.getByText('SmartContact')).toBeVisible();
+    await expect(page.locator('[data-testid="node-preview-modal"]')).not.toBeVisible();
+    await expect(sitemapNode).toContainText('✓ EXPLORADO');
 
-    // Fecha o modal via tecla Escape
-    await page.keyboard.press('Escape');
-    await expect(modal).not.toBeVisible();
+    // Verifica que os badges bidirecionais de trilha estão visíveis no destino SmartContact
+    const backMapBadge = page.locator('[data-testid="trail-back-map-smartcontact"]').first();
+    const nextNodeBadge = page.locator('[data-testid="trail-next-node-smartcontact"]').first();
+    await expect(backMapBadge).toBeVisible();
+    await expect(nextNodeBadge).toBeVisible();
   });
 });

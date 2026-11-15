@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Calculator, DollarSign, Clock, ArrowRight, TrendingUp, Compass } from 'lucide-react';
+import { Calculator, DollarSign, Clock, ArrowRight, TrendingUp } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { getLisaWhatsAppUrl } from '../data/contact';
+import { TrailNavigationBadges } from './sitemap/TrailNavigationBadges';
 
 export const RoiCalculator: React.FC = () => {
   const [ticketMedio, setTicketMedio] = useState<number>(4000);
@@ -18,16 +19,9 @@ export const RoiCalculator: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="max-w-3xl mx-auto text-center mb-16">
-          <div className="flex flex-wrap items-center justify-center gap-2 mb-4">
-            <a
-              href="#mapa"
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--bg-elevated)] hover:bg-[var(--border-strong)] border border-[var(--border-subtle)] text-xs font-mono text-[var(--text-secondary)] hover:text-[var(--text-main)] transition-colors shadow-xs"
-              title="Retornar à Constelação Tecnológica"
-            >
-              <Compass className="w-3.5 h-3.5 text-[var(--accent-purple)]" />
-              <span>Voltar à Constelação</span>
-            </a>
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--bg-elevated)] border border-[#50fa7b]/40 text-xs font-mono text-[#50fa7b]">
+          <div className="flex flex-col items-center gap-3 mb-4">
+            <TrailNavigationBadges currentNodeId="roi-calculator" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--bg-elevated)] border border-[#50fa7b]/40 text-xs font-mono text-[var(--accent-green)]">
               <Calculator className="w-4 h-4" />
               Simulador de Impacto Financeiro
             </div>

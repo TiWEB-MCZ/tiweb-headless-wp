@@ -1,17 +1,24 @@
-import { describe, it, expect, vi } from 'vitest';
-import { render, screen, fireEvent, within } from '@testing-library/react';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { render, screen, fireEvent } from '@testing-library/react';
 import React from 'react';
 import { GamifiedSitemap } from '../components/sitemap/GamifiedSitemap';
+import { TeleportOverlay } from '../components/sitemap/TeleportOverlay';
+import { TrailNavigationBadges } from '../components/sitemap/TrailNavigationBadges';
 import { SITEMAP_NODES } from '../data/sitemapNodes';
 import { ThemeProvider } from '../context/ThemeContext';
 import { ExplorationGameProvider } from '../context/ExplorationGameContext';
 
 describe('GamifiedSitemap Component', () => {
+  beforeEach(() => {
+    localStorage.clear();
+  });
+
   const renderComponent = (props = {}) => {
     return render(
       <ThemeProvider>
         <ExplorationGameProvider>
           <GamifiedSitemap {...props} />
+          <TeleportOverlay />
         </ExplorationGameProvider>
       </ThemeProvider>
     );
@@ -30,29 +37,32 @@ describe('GamifiedSitemap Component', () => {
     });
   });
 
-  it('opens preview modal when clicking a node', () => {
+  it('teleports directly without opening blocking modal when clicking a node', () => {
     renderComponent();
     const smartContactNode = screen.getByTestId('sitemap-node-smartcontact');
     fireEvent.click(smartContactNode);
 
-    // Modal preview should display node details
-    const modal = screen.getByTestId('node-preview-modal');
-    expect(modal).toBeInTheDocument();
-    expect(within(modal).getByText('SmartContact')).toBeInTheDocument();
-    expect(within(modal).getByText(/CRM & Agentes Cognitivos Omnichannel/i)).toBeInTheDocument();
-    expect(within(modal).getByText(/Acessar Destino/i)).toBeInTheDocument();
+    // Must NOT open blocking modal
+    expect(screen.queryByTestId('node-preview-modal')).not.toBeInTheDocument();
+
+    // Must activate teleport fade overlay and mark node as explored
+    expect(screen.getByTestId('teleport-overlay')).toBeInTheDocument();
+    expect(screen.getByText(/Teletransportando para SmartContact/i)).toBeInTheDocument();
+    expect(smartContactNode).toHaveTextContent(/✓ EXPLORADO/i);
   });
 
-  it('closes preview modal when clicking close button', () => {
+  it('displays lightweight hover tooltip with tagline and tech stack on mouseEnter', () => {
     renderComponent();
-    const masNode = screen.getByTestId('sitemap-node-mas-educa-ia');
-    fireEvent.click(masNode);
+    const smartContactNode = screen.getByTestId('sitemap-node-smartcontact');
+    fireEvent.mouseEnter(smartContactNode);
 
-    expect(screen.getByTestId('node-preview-modal')).toBeInTheDocument();
-    const closeBtn = screen.getByRole('button', { name: /fechar detalhes/i });
-    fireEvent.click(closeBtn);
+    const tooltip = screen.getByTestId('node-hover-tooltip');
+    expect(tooltip).toBeInTheDocument();
+    expect(tooltip).toHaveTextContent(/CRM & Agentes Cognitivos Omnichannel/i);
+    expect(tooltip).toHaveTextContent(/Clique para teletransportar/i);
 
-    expect(screen.queryByTestId('node-preview-modal')).not.toBeInTheDocument();
+    fireEvent.mouseLeave(smartContactNode);
+    expect(screen.queryByTestId('node-hover-tooltip')).not.toBeInTheDocument();
   });
 
   it('filters nodes when selecting a category filter', () => {
@@ -60,12 +70,11 @@ describe('GamifiedSitemap Component', () => {
     const filterBtn = screen.getByRole('button', { name: /SaaS & CRM/i });
     fireEvent.click(filterBtn);
 
-    // SmartContact should be highlighted or active
     const smartContactNode = screen.getByTestId('sitemap-node-smartcontact');
     expect(smartContactNode).toBeInTheDocument();
   });
 
-  it('calls onClose callback if provided when closing sitemap view/overlay', () => {
+  it('calls onClose callback if provided when closing or teleporting from modal sitemap', () => {
     const handleClose = vi.fn();
     renderComponent({ isModal: true, onClose: handleClose });
 
@@ -75,20 +84,24 @@ describe('GamifiedSitemap Component', () => {
     expect(handleClose).toHaveBeenCalledTimes(1);
   });
 
-  it('allows navigating to the next suggested node in the exploration trail', () => {
-    renderComponent();
-    const smartContactNode = screen.getByTestId('sitemap-node-smartcontact');
-    fireEvent.click(smartContactNode);
+  it('renders bidirectional TrailNavigationBadges and teleports to next node in trail', () => {
+    render(
+      <ThemeProvider>
+        <ExplorationGameProvider>
+          <TrailNavigationBadges currentNodeId="smartcontact" />
+          <TeleportOverlay />
+        </ExplorationGameProvider>
+      </ThemeProvider>
+    );
 
-    const modal = screen.getByTestId('node-preview-modal');
-    expect(within(modal).getByText('SmartContact')).toBeInTheDocument();
+    const backBtn = screen.getByTestId('trail-back-map-smartcontact');
+    const nextBtn = screen.getByTestId('trail-next-node-smartcontact');
 
-    // Click the next node button (which suggests 'Lisa Automação')
-    const nextBtn = within(modal).getByRole('button', { name: /Próximo: Lisa Automação/i });
-    expect(nextBtn).toBeInTheDocument();
+    expect(backBtn).toHaveTextContent(/Voltar à Constelação/i);
+    expect(nextBtn).toHaveTextContent(/Próxima Parada: MAS \/ Educa-IA/i);
+
     fireEvent.click(nextBtn);
-
-    // Modal should now show Lisa
-    expect(within(modal).getByText('Lisa Automação')).toBeInTheDocument();
+    expect(screen.getByTestId('teleport-overlay')).toBeInTheDocument();
+    expect(screen.getByText(/Teletransportando para MAS \/ Educa-IA/i)).toBeInTheDocument();
   });
 });
