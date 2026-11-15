@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Briefcase, Terminal, Shield, GitBranch, Cpu, CheckCircle, Lock, BarChart3, RefreshCw } from 'lucide-react';
+import { Briefcase, Terminal, Shield, GitBranch, Cpu, CheckCircle, Lock, BarChart3, RefreshCw, Compass } from 'lucide-react';
 
 export const EngineeringTrust: React.FC = () => {
   const [viewMode, setViewMode] = useState<'business' | 'tech'>('business');
@@ -10,9 +10,19 @@ export const EngineeringTrust: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="max-w-3xl mx-auto text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--bg-elevated)] border border-[var(--border-subtle)] text-xs font-mono text-[var(--accent-green)] mb-4">
-            <Cpu className="w-3.5 h-3.5" />
-            Método & Rigor Construtivo
+          <div className="flex flex-wrap items-center justify-center gap-2 mb-4">
+            <a
+              href="#mapa"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--bg-elevated)] hover:bg-[var(--border-strong)] border border-[var(--border-subtle)] text-xs font-mono text-[var(--text-secondary)] hover:text-[var(--text-main)] transition-colors shadow-xs"
+              title="Retornar à Constelação Tecnológica"
+            >
+              <Compass className="w-3.5 h-3.5 text-[var(--accent-purple)]" />
+              <span>Voltar à Constelação</span>
+            </a>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--bg-elevated)] border border-[var(--border-subtle)] text-xs font-mono text-[var(--accent-green)]">
+              <Cpu className="w-3.5 h-3.5" />
+              Método & Rigor Construtivo
+            </div>
           </div>
           <h2 className="text-3xl sm:text-5xl font-extrabold text-[var(--text-main)] tracking-tight">
             Como Construímos Software

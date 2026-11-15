@@ -63,35 +63,33 @@ export const GamifiedSitemap: React.FC<GamifiedSitemapProps> = ({
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#8be9fd]/10 rounded-full blur-[140px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Header Bar */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--bg-elevated)] border border-[#bd93f9]/40 text-xs font-mono text-[var(--accent-purple)] mb-3 font-semibold">
-              <Compass className="w-4 h-4 animate-spin-slow" />
-              NAVEGAÇÃO ESPACIAL & ÁRVORE TECNOLÓGICA
-            </div>
-            <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-[var(--text-main)]">
-              Constelação Tecnológica & Mapa do Site
-            </h2>
-            <p className="mt-2 text-sm sm:text-base text-[var(--text-secondary)] max-w-2xl">
-              Navegue visualmente por todos os pilares do ecossistema TIWEB. Clique em qualquer nó para inspecionar arquitetura, tecnologias e teletransportar-se instantaneamente.
-            </p>
-          </div>
-
+        {/* Header Bar Centralizado */}
+        <div className="max-w-3xl mx-auto text-center mb-10 relative">
           {isModal && onClose && (
             <button
               type="button"
               onClick={onClose}
               aria-label="Fechar mapa"
-              className="self-end md:self-start p-3 rounded-2xl bg-[var(--bg-elevated)] text-[var(--text-main)] hover:bg-[var(--border-strong)] transition-all cursor-pointer shadow-sm"
+              className="absolute top-0 right-0 p-2.5 rounded-2xl bg-[var(--bg-elevated)] text-[var(--text-main)] hover:bg-[var(--border-strong)] transition-all cursor-pointer shadow-sm"
             >
-              <X className="w-6 h-6" />
+              <X className="w-5 h-5" />
             </button>
           )}
+
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--bg-elevated)] border border-[#bd93f9]/40 text-xs font-mono text-[var(--accent-purple)] mb-3 font-semibold">
+            <Compass className="w-4 h-4 animate-spin-slow" />
+            NAVEGAÇÃO ESPACIAL & ÁRVORE TECNOLÓGICA
+          </div>
+          <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-[var(--text-main)]">
+            Constelação Tecnológica & Mapa do Site
+          </h2>
+          <p className="mt-3 text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed max-w-2xl mx-auto">
+            Navegue visualmente por todos os pilares do ecossistema TIWEB. Clique em qualquer nó para inspecionar arquitetura, tecnologias e teletransportar-se instantaneamente.
+          </p>
         </div>
 
         {/* Category Filters Bar */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-8 no-scrollbar">
+        <div className="flex items-center justify-start md:justify-center gap-2 overflow-x-auto pb-4 mb-8 no-scrollbar">
           {categories.map((cat) => {
             const isSelected = selectedCategory === cat;
             return (
@@ -272,6 +270,7 @@ export const GamifiedSitemap: React.FC<GamifiedSitemapProps> = ({
         node={selectedNode}
         isOpen={Boolean(selectedNode)}
         onClose={() => setSelectedNode(null)}
+        onSelectNode={handleSelectNode}
       />
     </section>
   );

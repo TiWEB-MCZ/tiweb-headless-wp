@@ -74,4 +74,21 @@ describe('GamifiedSitemap Component', () => {
 
     expect(handleClose).toHaveBeenCalledTimes(1);
   });
+
+  it('allows navigating to the next suggested node in the exploration trail', () => {
+    renderComponent();
+    const smartContactNode = screen.getByTestId('sitemap-node-smartcontact');
+    fireEvent.click(smartContactNode);
+
+    const modal = screen.getByTestId('node-preview-modal');
+    expect(within(modal).getByText('SmartContact')).toBeInTheDocument();
+
+    // Click the next node button (which suggests 'Lisa Automação')
+    const nextBtn = within(modal).getByRole('button', { name: /Próximo: Lisa Automação/i });
+    expect(nextBtn).toBeInTheDocument();
+    fireEvent.click(nextBtn);
+
+    // Modal should now show Lisa
+    expect(within(modal).getByText('Lisa Automação')).toBeInTheDocument();
+  });
 });
