@@ -1,23 +1,17 @@
 import React from 'react';
 import { ECOSYSTEM_PRODUCTS, EcosystemProduct } from '../data/products';
-import { ExternalLink, ArrowRight, Check, Layers, Sparkles, Compass } from 'lucide-react';
+import { ExternalLink, ArrowRight, Check, Layers, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { TrailNavigationBadges } from './sitemap/TrailNavigationBadges';
 
 export const BentoGrid: React.FC = () => {
   return (
-    <section id="produtos" className="py-20 lg:py-28 bg-[var(--bg-app)] relative border-t border-[var(--border-subtle)]">
+    <section id="produtos" className="py-20 lg:py-28 bg-[var(--bg-app)] relative border-t border-[var(--border-subtle)] scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="max-w-3xl mx-auto text-center mb-16">
-          <div className="flex flex-wrap items-center justify-center gap-2 mb-4">
-            <a
-              href="#mapa"
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--bg-elevated)] hover:bg-[var(--border-strong)] border border-[var(--border-subtle)] text-xs font-mono text-[var(--text-secondary)] hover:text-[var(--text-main)] transition-colors shadow-xs"
-              title="Retornar à Constelação Tecnológica"
-            >
-              <Compass className="w-3.5 h-3.5 text-[var(--accent-purple)]" />
-              <span>Voltar à Constelação</span>
-            </a>
+          <div className="flex flex-col items-center gap-3 mb-4">
+            <TrailNavigationBadges currentNodeId="core-hub" />
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--bg-elevated)] border border-[var(--border-subtle)] text-xs font-mono text-[var(--accent-purple)]">
               <Layers className="w-3.5 h-3.5" />
               Ecossistema Multi-Produto TIWEB
@@ -36,15 +30,17 @@ export const BentoGrid: React.FC = () => {
           {ECOSYSTEM_PRODUCTS.map((product, idx) => {
             const isWide = idx === 0 || idx === 1; // Primeiros dois cards maiores
             const colSpanClass = isWide ? 'lg:col-span-6' : 'lg:col-span-6';
+            const cardNodeId = product.id === 'lisa-automacao' ? 'lisa' : product.id;
 
             return (
               <motion.div
                 key={product.id}
+                id={`produto-${product.id}`}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className={`${colSpanClass} rounded-3xl bg-[var(--bg-surface)] border border-[var(--border-subtle)] hover:border-[var(--accent-purple)] p-6 sm:p-8 flex flex-col justify-between transition-all duration-300 hover:shadow-xl group relative overflow-hidden`}
+                className={`${colSpanClass} scroll-mt-24 rounded-3xl bg-[var(--bg-surface)] border border-[var(--border-subtle)] hover:border-[var(--accent-purple)] p-6 sm:p-8 flex flex-col justify-between transition-all duration-300 hover:shadow-xl group relative overflow-hidden`}
               >
                 {/* Header do Card */}
                 <div>
@@ -147,6 +143,12 @@ export const BentoGrid: React.FC = () => {
                       </a>
                     )}
                   </div>
+
+                  <TrailNavigationBadges
+                    currentNodeId={cardNodeId}
+                    compact
+                    className="mt-4 pt-3 border-t border-[var(--border-subtle)]"
+                  />
                 </div>
               </motion.div>
             );

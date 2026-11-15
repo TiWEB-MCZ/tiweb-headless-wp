@@ -13,7 +13,6 @@ import {
   CheckCircle,
 } from 'lucide-react';
 import { SITEMAP_NODES, SITEMAP_EDGES, SitemapNode, getNodeThemeAccent } from '../../data/sitemapNodes';
-import { NodePreviewModal } from './NodePreviewModal';
 import { useExplorationGame } from '../../context/ExplorationGameContext';
 import { useTheme } from '../../context/ThemeContext';
 
@@ -30,8 +29,7 @@ export const GamifiedSitemap: React.FC<GamifiedSitemapProps> = ({
 }) => {
   const { theme } = useTheme();
   const isLight = theme === 'light';
-  const { markNodeVisited, isNodeVisited } = useExplorationGame();
-  const [selectedNode, setSelectedNode] = useState<SitemapNode | null>(null);
+  const { teleportToNode, isNodeVisited } = useExplorationGame();
   const [selectedCategory, setSelectedCategory] = useState<string>('Todos');
   const [hoveredNodeId, setHoveredNodeId] = useState<string | null>(null);
 
@@ -50,8 +48,10 @@ export const GamifiedSitemap: React.FC<GamifiedSitemapProps> = ({
   }, [filteredNodes]);
 
   const handleSelectNode = (node: SitemapNode) => {
-    markNodeVisited(node.id);
-    setSelectedNode(node);
+    if (isModal && onClose) {
+      onClose();
+    }
+    teleportToNode(node.id);
   };
 
   return (
@@ -170,12 +170,14 @@ export const GamifiedSitemap: React.FC<GamifiedSitemapProps> = ({
                   top: `${node.y}%`,
                   transform: 'translate(-50%, -50%)',
                 }}
-                className={`absolute z-10 cursor-pointer transition-all duration-200 select-none ${
+                className={`absolute cursor-pointer transition-all duration-200 select-none ${
+                  isHovered ? 'z-30' : 'z-10'
+                } ${
                   isMatch ? 'opacity-100 scale-100' : 'opacity-35 scale-90 grayscale'
                 }`}
               >
                 <div
-                  className={`flex flex-col items-center justify-center p-3 rounded-2xl border transition-all duration-300 shadow-md ${
+                  className={`flex flex-col items-center justify-center p-3 rounded-2xl border transition-all duration-300 shadow-md relative ${
                     isVisited
                       ? 'border-[var(--accent-green)] shadow-[0_0_15px_rgba(22,163,74,0.25)] bg-[var(--bg-elevated)]'
                       : isCore
@@ -212,6 +214,37 @@ export const GamifiedSitemap: React.FC<GamifiedSitemapProps> = ({
                   >
                     {isVisited ? '✓ EXPLORADO' : node.badge}
                   </span>
+
+                  {/* Hover Preview Tooltip (Zero Modal Travada) */}
+                  {isHovered && (
+                    <div
+                      data-testid="node-hover-tooltip"
+                      className={`pointer-events-none absolute left-1/2 -translate-x-1/2 w-60 p-3 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-strong)] shadow-2xl z-40 text-left ${
+                        node.y > 65 ? 'bottom-full mb-2.5' : 'top-full mt-2.5'
+                      }`}
+                    >
+                      <p className="text-[11px] font-semibold text-[var(--text-main)] leading-snug mb-1.5">
+                        {node.tagline}
+                      </p>
+                      <div className="flex flex-wrap gap-1 mb-2">
+                        {node.techHighlights.slice(0, 3).map((tech) => (
+                          <span
+                            key={tech}
+                            className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-[var(--bg-elevated)] text-[var(--text-secondary)] border border-[var(--border-subtle)]"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                      <span
+                        className="text-[10px] font-mono font-bold flex items-center gap-1"
+                        style={{ color: accent }}
+                      >
+                        <Zap className="w-3 h-3" />
+                        Clique para teletransportar ➔
+                      </span>
+                    </div>
+                  )}
                 </div>
               </motion.div>
             );
@@ -263,7 +296,7 @@ export const GamifiedSitemap: React.FC<GamifiedSitemapProps> = ({
                 </div>
 
                 <div className="flex items-center justify-between pt-3 border-t border-[var(--border-subtle)] text-xs font-semibold text-[var(--accent-purple)]">
-                  <span>Inspecionar nó</span>
+                  <span>Teletransportar para destino</span>
                   <ArrowRight className="w-4 h-4" />
                 </div>
               </div>
@@ -271,14 +304,6 @@ export const GamifiedSitemap: React.FC<GamifiedSitemapProps> = ({
           })}
         </div>
       </div>
-
-      {/* Node Preview Modal Drawer */}
-      <NodePreviewModal
-        node={selectedNode}
-        isOpen={Boolean(selectedNode)}
-        onClose={() => setSelectedNode(null)}
-        onSelectNode={handleSelectNode}
-      />
     </section>
   );
 };
