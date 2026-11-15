@@ -101,5 +101,23 @@ test.describe('Varredura Visual e Auditoria de Tema (Dark vs Light Mode)', () =>
     // 6. Assegura que resíduos escuros e textos ilegíveis foram eliminados no Light Mode
     expect(auditReport.offendingDarkBgsCount).toBe(0);
     expect(auditReport.offendingLightTextsCount).toBe(0);
+
+    // 7. Auditoria específica da Constelação Tecnológica & Mapa do Site no Light Mode
+    const sitemapSection = page.locator('#mapa');
+    await expect(sitemapSection).toBeVisible();
+
+    // Verifica presença de nós interativos
+    const sitemapNode = page.locator('[data-testid="sitemap-node-smartcontact"]').first();
+    await expect(sitemapNode).toBeVisible();
+
+    // Abre o modal de prévia do nó
+    await sitemapNode.click();
+    const modal = page.locator('[data-testid="node-preview-modal"]');
+    await expect(modal).toBeVisible();
+    await expect(modal.getByText('SmartContact')).toBeVisible();
+
+    // Fecha o modal via tecla Escape
+    await page.keyboard.press('Escape');
+    await expect(modal).not.toBeVisible();
   });
 });

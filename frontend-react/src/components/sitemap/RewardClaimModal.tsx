@@ -58,11 +58,11 @@ export const RewardClaimModal: React.FC<RewardClaimModalProps> = ({ isOpen, onCl
           </button>
 
           {/* Badge Icon */}
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#50fa7b]/20 to-[#8be9fd]/20 border border-[#50fa7b]/50 flex items-center justify-center text-[#50fa7b] mb-4 shadow-lg">
+          <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[var(--accent-green)]/20 to-[var(--accent-cyan)]/20 border border-[var(--accent-green)]/50 flex items-center justify-center text-[var(--accent-green)] mb-4 shadow-lg">
             <Award className="w-8 h-8 animate-bounce" />
           </div>
 
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#50fa7b]/15 border border-[#50fa7b]/40 text-xs font-mono text-[#50fa7b] mb-3 font-bold">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--accent-green)]/15 border border-[var(--accent-green)]/40 text-xs font-mono text-[var(--accent-green)] mb-3 font-bold">
             <Sparkles className="w-3.5 h-3.5" />
             CONQUISTA MÁXIMA DESBLOQUEADA
           </div>
@@ -82,13 +82,13 @@ export const RewardClaimModal: React.FC<RewardClaimModalProps> = ({ isOpen, onCl
                 className="flex items-center justify-between p-3 rounded-xl bg-[var(--bg-elevated)] border border-[var(--border-subtle)] text-xs"
               >
                 <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-[#50fa7b] shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-[var(--accent-green)] shrink-0" />
                   <div>
                     <span className="font-bold text-[var(--text-main)] block">{b.name}</span>
                     <span className="text-[11px] text-[var(--text-muted)]">{b.description}</span>
                   </div>
                 </div>
-                <span className="font-mono text-[10px] text-[#50fa7b] font-bold px-2 py-0.5 rounded bg-[#50fa7b]/10 border border-[#50fa7b]/30">
+                <span className="font-mono text-[10px] text-[var(--accent-green)] font-bold px-2 py-0.5 rounded bg-[var(--accent-green)]/10 border border-[var(--accent-green)]/30">
                   DESBLOQUEADO
                 </span>
               </div>
@@ -100,7 +100,7 @@ export const RewardClaimModal: React.FC<RewardClaimModalProps> = ({ isOpen, onCl
             <span className="text-[11px] font-mono text-[var(--text-muted)] block mb-1">
               VOUCHER EXECUTIVO VERIFICADO:
             </span>
-            <span className="text-base font-mono font-bold text-[#8be9fd] tracking-widest">
+            <span className="text-base font-mono font-bold text-[var(--accent-cyan)] tracking-widest">
               TIWEB-MASTER-ARCH-2026
             </span>
           </div>
@@ -111,7 +111,7 @@ export const RewardClaimModal: React.FC<RewardClaimModalProps> = ({ isOpen, onCl
             target="_blank"
             rel="noopener noreferrer"
             onClick={onClose}
-            className="w-full py-4 px-6 rounded-xl text-sm font-bold text-slate-950 bg-gradient-to-r from-[#50fa7b] via-[#8be9fd] to-[#bd93f9] hover:shadow-[0_0_25px_rgba(80,250,123,0.4)] active:scale-95 transition-all flex items-center justify-center gap-2"
+            className="w-full py-4 px-6 rounded-xl text-sm font-bold text-white dark:text-slate-950 bg-gradient-to-r from-[var(--accent-green)] via-[var(--accent-cyan)] to-[var(--accent-purple)] hover:shadow-[0_0_25px_rgba(22,163,74,0.3)] active:scale-95 transition-all flex items-center justify-center gap-2 shadow-md"
           >
             <MessageSquare className="w-4 h-4" />
             <span>Resgatar Diagnóstico Gratuito com a Lisa no WhatsApp</span>
