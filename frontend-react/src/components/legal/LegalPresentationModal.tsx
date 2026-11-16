@@ -185,7 +185,14 @@ export const LegalPresentationModal: React.FC<LegalPresentationModalProps> = ({ 
                     key={bIdx}
                     className="p-4 rounded-2xl bg-[var(--bg-elevated)] border border-[var(--border-subtle)] hover:border-[#bd93f9]/50 transition-colors"
                   >
-                    <div className="mb-2.5">{renderIcon(bp.icon)}</div>
+                    <div className="flex items-center justify-between gap-2 mb-2.5">
+                      {renderIcon(bp.icon)}
+                      {bp.moduleTag && (
+                        <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-md bg-[var(--bg-surface)] text-[var(--accent-purple)] border border-[var(--border-subtle)]">
+                          {bp.moduleTag}
+                        </span>
+                      )}
+                    </div>
                     <h4 className="text-sm font-bold text-[var(--text-main)] mb-1">{bp.title}</h4>
                     <p className="text-xs text-[var(--text-muted)] leading-relaxed">{bp.description}</p>
                   </div>
