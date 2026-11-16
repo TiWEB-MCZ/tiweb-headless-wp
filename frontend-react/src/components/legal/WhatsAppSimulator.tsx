@@ -31,6 +31,8 @@ const PRESET_SCENARIOS = [
   }
 ];
 
+type ConversationStage = 'awaiting_topic' | 'awaiting_meeting_confirmation';
+
 export const WhatsAppSimulator: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -42,8 +44,11 @@ export const WhatsAppSimulator: React.FC = () => {
   ]);
   const [inputText, setInputText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [conversationStage, setConversationStage] = useState<ConversationStage>('awaiting_topic');
+  const [lastTopic, setLastTopic] = useState<string>('');
 
   const simulateScenario = (scenario: typeof PRESET_SCENARIOS[0]) => {
+    setConversationStage('awaiting_topic');
     const userMsg: Message = {
       id: Date.now().toString(),
       sender: 'user',
@@ -76,32 +81,62 @@ export const WhatsAppSimulator: React.FC = () => {
     }, 1000);
   };
 
-  const handleSendCustom = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!inputText.trim()) return;
+  const processUserMessage = (rawText: string) => {
+    const trimmed = rawText.trim();
+    if (!trimmed) return;
 
     const userMsg: Message = {
       id: Date.now().toString(),
       sender: 'user',
-      text: inputText,
+      text: trimmed,
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
 
     setMessages((prev) => [...prev, userMsg]);
-    const currentInput = inputText;
     setInputText('');
     setIsTyping(true);
 
+    const currentStage = conversationStage;
+    const topicSnapshot = lastTopic;
+    const normalized = trimmed.toLowerCase();
+    const isAffirmative = /^(sim|s|quero|claro|pode|ok|agendar|vamos|com certeza|✅)/i.test(normalized);
+    const isNegative = /^(n[aã]o|n|agora n[aã]o|depois|obrigad[oa]|❌)/i.test(normalized);
+
     setTimeout(() => {
+      let botResponseText = '';
+
+      if (currentStage === 'awaiting_meeting_confirmation') {
+        if (isAffirmative) {
+          botResponseText = `Perfeito! Pré-agendamos sua reunião inicial sobre "${topicSnapshot}" com o especialista da banca. Clique no link oficial do WhatsApp abaixo para confirmar o melhor dia e horário com a Lisa, ou digite outra dúvida jurídica se desejar!`;
+          setConversationStage('awaiting_topic');
+        } else if (isNegative) {
+          botResponseText = `Sem problemas! O resumo sobre "${topicSnapshot}" já ficou registrado caso precise futuramente. Se quiser simular outra dúvida jurídica, basta digitar abaixo!`;
+          setConversationStage('awaiting_topic');
+        } else {
+          setLastTopic(trimmed);
+          botResponseText = `Compreendo perfeitamente sua dúvida sobre "${trimmed}". Para mantermos o rigor ético da OAB, já registrei o resumo do seu caso para que o advogado especialista examine os detalhes e lhe responda. Gostaria de agendar uma reunião inicial?`;
+          setConversationStage('awaiting_meeting_confirmation');
+        }
+      } else {
+        setLastTopic(trimmed);
+        botResponseText = `Compreendo perfeitamente sua dúvida sobre "${trimmed}". Para mantermos o rigor ético da OAB, já registrei o resumo do seu caso para que o advogado especialista examine os detalhes e lhe responda. Gostaria de agendar uma reunião inicial?`;
+        setConversationStage('awaiting_meeting_confirmation');
+      }
+
       const botMsg: Message = {
         id: (Date.now() + 1).toString(),
         sender: 'bot',
-        text: `Compreendo perfeitamente sua dúvida sobre "${currentInput}". Para mantermos o rigor ético da OAB, já registrei o resumo do seu caso para que o advogado especialista examine os detalhes e lhe responda. Gostaria de agendar uma reunião inicial?`,
+        text: botResponseText,
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
       setMessages((prev) => [...prev, botMsg]);
       setIsTyping(false);
     }, 1200);
+  };
+
+  const handleSendCustom = (e: React.FormEvent) => {
+    e.preventDefault();
+    processUserMessage(inputText);
   };
 
   return (
@@ -186,13 +221,47 @@ export const WhatsAppSimulator: React.FC = () => {
         )}
       </div>
 
+      {/* Quick Confirmation Buttons (Sim / Não) when awaiting meeting confirmation */}
+      {conversationStage === 'awaiting_meeting_confirmation' && !isTyping && (
+        <div
+          data-testid="chat-meeting-confirmation-actions"
+          className="px-4 py-2.5 bg-[var(--bg-surface)] border-t border-[var(--border-subtle)] flex flex-wrap items-center justify-between gap-2"
+        >
+          <span className="text-[11px] font-mono text-[var(--text-secondary)]">
+            Agendar reunião sobre <strong className="text-[var(--accent-purple)]">"{lastTopic}"</strong>?
+          </span>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              data-testid="chat-confirm-yes"
+              onClick={() => processUserMessage('Sim, quero agendar reunião')}
+              className="px-3 py-1 rounded-lg text-xs font-bold bg-[#50fa7b] text-slate-950 hover:opacity-90 transition-all cursor-pointer"
+            >
+              ✅ Sim, agendar
+            </button>
+            <button
+              type="button"
+              data-testid="chat-confirm-no"
+              onClick={() => processUserMessage('Não, obrigado')}
+              className="px-3 py-1 rounded-lg text-xs font-semibold bg-[var(--bg-elevated)] text-[var(--text-main)] border border-[var(--border-subtle)] hover:border-[#ff5555] transition-all cursor-pointer"
+            >
+              ❌ Não, outra dúvida
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Input Field */}
       <form onSubmit={handleSendCustom} className="p-3 bg-[var(--bg-elevated)] border-t border-[var(--border-subtle)] flex gap-2">
         <input
           type="text"
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
-          placeholder="Digite sua dúvida jurídica de teste..."
+          placeholder={
+            conversationStage === 'awaiting_meeting_confirmation'
+              ? 'Responda Sim ou Não (ou use os botões acima)...'
+              : 'Digite sua dúvida jurídica de teste...'
+          }
           className="flex-1 bg-[var(--bg-surface)] border border-[var(--border-subtle)] rounded-xl px-3.5 py-2 text-xs text-[var(--text-main)] focus:outline-none focus:border-[#bd93f9] transition-colors"
         />
         <button
