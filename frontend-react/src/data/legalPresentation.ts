@@ -5,6 +5,7 @@ export interface LegalSlide {
   headline: string;
   content: string[];
   bulletPoints: {
+    moduleTag?: string;
     title: string;
     description: string;
     icon: 'target' | 'alert' | 'bot' | 'shield' | 'zap' | 'rocket' | 'calendar';
@@ -24,18 +25,21 @@ export const LEGAL_SLIDES: LegalSlide[] = [
     ],
     bulletPoints: [
       {
-        title: 'Atendimento e Triagem 24/7',
-        description: 'Qualificação técnica prévia de clientes potenciais no WhatsApp em menos de 5 segundos.',
-        icon: 'bot'
+        moduleTag: 'PILAR 01 • VELOCIDADE COMERCIAL',
+        title: 'Recepção Imediata (< 5s)',
+        description: 'Acolhimento instantâneo no WhatsApp 24/7 para impedir que o constituinte procure outro escritório.',
+        icon: 'zap'
       },
       {
-        title: 'Conformidade Ética OAB',
-        description: 'Linguagem estritamente consultiva e informativa, em total aderência ao Provimento 205/2021.',
+        moduleTag: 'PILAR 02 • DEONTOLOGIA JURÍDICA',
+        title: 'Conformidade Provimento 205/2021',
+        description: 'Linguagem estritamente consultiva e informativa, blindando os sócios perante o Tribunal de Ética da OAB.',
         icon: 'shield'
       },
       {
-        title: 'Recuperação Ativa de Caixa',
-        description: 'Reativação de alvarás e honorários retidos por falta de contato atualizado com o assistido.',
+        moduleTag: 'PILAR 03 • LIQUIDEZ DE CAIXA',
+        title: 'Destravamento de Honorários',
+        description: 'Conversão ativa de alvarás e precatórios represados por falta de contato atualizado com o cliente.',
         icon: 'target'
       }
     ],
@@ -79,18 +83,21 @@ export const LEGAL_SLIDES: LegalSlide[] = [
     ],
     bulletPoints: [
       {
-        title: '1. Atendente & Qualificador 24/7',
-        description: 'Atende no WhatsApp, acolhe o cliente, identifica o ramo do direito, coleta dados preliminares e agenda horário.',
+        moduleTag: 'MOTOR NLP • COMPÕE O PILAR 01',
+        title: '1. Classificador Jurídico & Pauta',
+        description: 'Identifica a área do direito pela narrativa do cliente, coleta documentos iniciais e cruza agenda dos advogados.',
         icon: 'bot'
       },
       {
-        title: '2. Sentinela Processual Automático',
-        description: 'Traduz termos técnicos do tribunal para português claro (Visual Law) e envia atualizações automáticas ao cliente.',
+        moduleTag: 'MOTOR VISUAL LAW • TRANSPARÊNCIA',
+        title: '2. Tradutor de Andamentos Processuais',
+        description: 'Converte despachos técnicos dos tribunais em resumos claros no WhatsApp sem consumir horas da equipe.',
         icon: 'zap'
       },
       {
-        title: '3. Caçador de Contatos & Reativação',
-        description: 'Localiza contatos atualizados e dispara réguas de comunicação prioritárias para clientes com alvarás pendentes.',
+        moduleTag: 'MOTOR DATA • COMPÕE O PILAR 03',
+        title: '3. Higienizador & Caçador de Contatos',
+        description: 'Enriquece cadastros desatualizados e aciona réguas prioritárias para titulares de alvarás expedidos.',
         icon: 'target'
       }
     ],
@@ -133,19 +140,22 @@ export const LEGAL_SLIDES: LegalSlide[] = [
     ],
     bulletPoints: [
       {
-        title: 'Módulo 1: Triagem & Agendamento no WhatsApp',
-        description: 'Robô inteligente que qualifica o lead pelo ramo do direito e agenda no calendário do advogado.',
+        moduleTag: 'COMPOSIÇÃO: MOTOR NLP + AGENDA',
+        title: 'Pacote 1: Recepção & Pauta Automática',
+        description: 'Une o Classificador Jurídico (Motor 1) ao Google Calendar da banca para agendar consultas qualificadas em 72h.',
+        icon: 'calendar'
+      },
+      {
+        moduleTag: 'COMPOSIÇÃO: MOTOR DATA + RÉGUA',
+        title: 'Pacote 2: Força-Tarefa de Alvarás',
+        description: 'Aplica o Caçador de Contatos (Motor 3) sobre a lista de processos ganhos para liquidar honorários retidos.',
+        icon: 'rocket'
+      },
+      {
+        moduleTag: 'COMPOSIÇÃO: VISUAL LAW + FAQ',
+        title: 'Pacote 3: Central de Dúvidas Recorrentes',
+        description: 'Combina o Tradutor Visual Law (Motor 2) aos 20 fluxos mais perguntados pelos clientes ativos do escritório.',
         icon: 'bot'
-      },
-      {
-        title: 'Módulo 2: Régua de Notificação de Alvarás',
-        description: 'Esteira automatizada para localizar assistidos e notificar liberações de pagamentos com rapidez.',
-        icon: 'target'
-      },
-      {
-        title: 'Módulo 3: Visual Law & FAQ Automatizado',
-        description: 'Respostas prontas em linguagem humanizada para as 20 dúvidas mais frequentes de clientes ativos.',
-        icon: 'zap'
       }
     ],
     executiveTakeaway: 'Implementação sem atrito com a equipe existente, sem necessidade de treinamentos complexos.'
